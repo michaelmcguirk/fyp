@@ -16,6 +16,10 @@ class CurrentTemp(models.Model):
     tempc = models.FloatField(blank=True, null=True)
     tempf = models.FloatField(blank=True, null=True)
     timestp = models.DateTimeField(blank=True, null=True)
+    temp_high_c = models.FloatField(blank=True, null=True)
+    temp_low_c = models.FloatField(blank=True, null=True)
+    temp_high_f = models.FloatField(blank=True, null=True)
+    temp_low_f = models.FloatField(blank=True, null=True)
 
     def __str__(self):
         return "Current Temp: " +str(self.tempc) + "c at " + str(self.timestp)
@@ -26,6 +30,8 @@ class CurrentTemp(models.Model):
 
 
 class Temps(models.Model):
+    temp_id = models.AutoField(primary_key=True)
+    batch_id = models.ForeignKey(Batch, on_delete=models.CASCADE)
     tempc = models.FloatField(blank=True, null=True)
     tempf = models.FloatField(blank=True, null=True)
     timestp = models.DateTimeField(blank=True, null=True)
@@ -33,3 +39,32 @@ class Temps(models.Model):
     class Meta:
         managed = False
         db_table = 'temps'
+
+class Batch(models.Model):
+    batch_id = models.AutoField(primary_key=True)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    start_date = models.DateTimeField(blank=True, null=True)
+    end_date = models.DateTimeField(blank=True, null=True)
+    batch_name = models.CharField(max_length=100)
+    beer_type = models.CharField(max_length=100)
+    volume_l = models.FloatField(blank=True, null=True)
+    initial_gravity = models.FloatField(blank=True, null=True)
+    initial_temp = models.FloatField(blank=True, null=True)
+    body_rating = models.IntegerField(blank=True, null=True)
+    taste_rating = models.IntegerField(blank=True, null=True)
+    notes = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'batch'
+
+class UserSettings(models.Model)
+    setting_id = models.AutoField(primary_key=True)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    def_temp_low = models.FloatField(blank=True, null=True)
+    def_temp_high = models.FloatField(blank=True, null=True)
+    def_temp_format = models.CharField(max_length=1)
+
+    class Meta:
+        managed = False
+        db_table = 'user_settings'
