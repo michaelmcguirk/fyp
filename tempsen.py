@@ -4,6 +4,7 @@ import time
 import datetime
 import RPi.GPIO as G
 import MySQLdb
+import logging
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
 
@@ -40,8 +41,13 @@ while True:
 	currentTime = datetime.datetime.now().strftime("%A, %d. %B %Y %I:%M%p")
 	print(currentTime)
 	print(read_temp())
-	cursor.execute("INSERT INTO temps(tempc,tempf)VALUES(%.2f, %.2f)" % (read_temp()[0],read_temp()[1]))
-	db.commit()
+	try:
+		cursor.execute("INSERT INTO temps(tempc,tempf)VALUES(%.2f, %.2f)" % (read_temp()[0],read_temp()[1]))
+		db.commit()
+	except MySQLdb.Error, e:
+		print "MySQL Error: %s" % str(e)
+	
+	# Adjust relay within temperature range
 	if read_temp()[0] > 17.00:
 		G.output(2,G.HIGH)
 		print "Relay is now on"
