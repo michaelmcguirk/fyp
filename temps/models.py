@@ -49,6 +49,7 @@ class Batch(models.Model):
     beer_type = models.CharField(max_length=100)
     volume_l = models.FloatField(blank=True, null=True)
     initial_gravity = models.FloatField(blank=True, null=True)
+    final_gravity = models.FloatField(blank=True, null=True)
     initial_temp = models.FloatField(blank=True, null=True)
     body_rating = models.IntegerField(blank=True, null=True)
     taste_rating = models.IntegerField(blank=True, null=True)
