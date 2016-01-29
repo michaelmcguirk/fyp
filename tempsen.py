@@ -50,7 +50,9 @@ def read_user_temp():
 
 
 while True:
-	currentTime = datetime.datetime.now().strftime("%A, %d. %B %Y %I:%M%p")
+	#currentTime = datetime.datetime.now().strftime("%A, %d. %B %Y %I:%M%p")
+	currentTime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+	
 	print(currentTime)
 	print(read_temp())
 	try:
