@@ -18,14 +18,11 @@ class CurrentTemp(models.Model):
     timestp = models.DateTimeField(blank=True, null=True)
     temp_high_c = models.FloatField(blank=True, null=True)
     temp_low_c = models.FloatField(blank=True, null=True)
-    temp_high_f = models.FloatField(blank=True, null=True)
-    temp_low_f = models.FloatField(blank=True, null=True)
 
     def __str__(self):
         return "Current Temp: " +str(self.tempc) + "c at " + str(self.timestp)
 
     class Meta:
-        managed = False
         db_table = 'current_temp'
 
 
@@ -37,7 +34,6 @@ class Temps(models.Model):
     timestp = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'temps'
 
 class Batch(models.Model):
@@ -56,7 +52,6 @@ class Batch(models.Model):
     notes = models.CharField(max_length=100)
 
     class Meta:
-        managed = False
         db_table = 'batch'
 
 class UserSettings(models.Model)
@@ -67,5 +62,4 @@ class UserSettings(models.Model)
     def_temp_format = models.CharField(max_length=1)
 
     class Meta:
-        managed = False
         db_table = 'user_settings'
