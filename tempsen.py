@@ -51,13 +51,13 @@ def read_user_temp():
 
 while True:
 	#currentTime = datetime.datetime.now().strftime("%A, %d. %B %Y %I:%M%p")
-	currentTime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+	currentTime = datetime.datetime.now().strftime('"%Y-%m-%d %H:%M:%S"')
 	
 	print(currentTime)
 	print(read_temp())
 	try:
 		# cursor.execute("INSERT INTO temps(tempc,tempf)VALUES(%.2f, %.2f)" % (read_temp()[0],read_temp()[1]))
-		cursor.execute("INSERT INTO temps(tempc,tempf, timestp)VALUES(%.2f, %.2f, %s)" % (read_temp()[0],read_temp()[1],currentTime))
+		cursor.execute("INSERT INTO temps(tempc,tempf,timestp)VALUES(%.2f, %.2f, %s)" % (read_temp()[0],read_temp()[1],currentTime))
 		db.commit()
 		user_temps = read_user_temp()
 		temp_low = user_temps[0]
