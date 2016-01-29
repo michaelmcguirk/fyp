@@ -8,6 +8,7 @@
 # Also note: You'll have to insert the output of 'django-admin sqlcustom [app_label]'
 # into your database.
 from __future__ import unicode_literals
+from django.contrib.auth.models import User
 
 from django.db import models
 
@@ -25,16 +26,6 @@ class CurrentTemp(models.Model):
     class Meta:
         db_table = 'current_temp'
 
-
-class Temps(models.Model):
-    temp_id = models.AutoField(primary_key=True)
-    batch_id = models.ForeignKey(Batch, on_delete=models.CASCADE)
-    tempc = models.FloatField(blank=True, null=True)
-    tempf = models.FloatField(blank=True, null=True)
-    timestp = models.DateTimeField(blank=True, null=True)
-
-    class Meta:
-        db_table = 'temps'
 
 class Batch(models.Model):
     batch_id = models.AutoField(primary_key=True)
@@ -54,7 +45,17 @@ class Batch(models.Model):
     class Meta:
         db_table = 'batch'
 
-class UserSettings(models.Model)
+class Temps(models.Model):
+    temp_id = models.AutoField(primary_key=True)
+    batch_id = models.ForeignKey(Batch, on_delete=models.CASCADE, null=True)
+    tempc = models.FloatField(blank=True, null=True)
+    tempf = models.FloatField(blank=True, null=True)
+    timestp = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        db_table = 'temps'
+
+class UserSettings(models.Model):
     setting_id = models.AutoField(primary_key=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     def_temp_low = models.FloatField(blank=True, null=True)
