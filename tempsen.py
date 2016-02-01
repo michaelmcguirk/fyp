@@ -58,6 +58,7 @@ while True:
 	try:
 		# cursor.execute("INSERT INTO temps(tempc,tempf)VALUES(%.2f, %.2f)" % (read_temp()[0],read_temp()[1]))
 		cursor.execute("INSERT INTO temps(tempc,tempf,timestp)VALUES(%.2f, %.2f, %s)" % (read_temp()[0],read_temp()[1],currentTime))
+		cursor.execute("UPDATE current_temp SET tempc=%f,tempf=%f,timestp=%s where temp_id=1" % (read_temp()[0],read_temp()[1],currentTime))
 		db.commit()
 		user_temps = read_user_temp()
 		temp_low = user_temps[0]
