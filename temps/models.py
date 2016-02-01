@@ -52,6 +52,9 @@ class Temps(models.Model):
     tempf = models.FloatField(blank=True, null=True)
     timestp = models.DateTimeField(blank=True, null=True)
 
+    def __str__(self):
+        return "Id: " + str(self.temp_id) + ", Temp_c: " + str(self.tempc) + ", Temp_f: " + str(self.tempf)  + ", Time: " + str(self.timestp)
+
     class Meta:
         db_table = 'temps'
 
