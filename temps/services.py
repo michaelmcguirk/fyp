@@ -13,3 +13,6 @@ def get_batch(batch_id=1):
 
 def get_current_temp():
 	return CurrentTemp.objects.get(temp_id=1)
+
+def create_batch():
+	return 1

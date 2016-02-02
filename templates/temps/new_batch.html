@@ -123,7 +123,11 @@
                                 <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Last 24Hrs - (Mock image - Demo only)</h3>
                             </div>
                             <div class="panel-body">
-                                <div><img src="{% static 'temps/graph.png' %}" class="img-responsive" alt="Mock graph image for demo"></div>
+                                <form action="/your-name/" method="post">
+                                    {% csrf_token %}
+                                    {{ form }}
+                                    <input type="submit" value="Submit" />
+                                </form>
                             </div>
                         </div>
                     </div>
