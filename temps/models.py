@@ -14,7 +14,7 @@ from django.db import models
 
 class Batch(models.Model):
     batch_id = models.AutoField(primary_key=True)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     start_date = models.DateTimeField(blank=True, null=True)
     end_date = models.DateTimeField(blank=True, null=True)
     batch_name = models.CharField(max_length=100)
@@ -37,7 +37,7 @@ class CurrentTemp(models.Model):
     timestp = models.DateTimeField(blank=True, null=True)
     temp_high_c = models.FloatField(blank=True, null=True)
     temp_low_c = models.FloatField(blank=True, null=True)
-    current_batch_id = models.ForeignKey(Batch, on_delete=models.CASCADE)
+    current_batch_id = models.ForeignKey(Batch, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return "Current Temp: " +str(self.tempc) + "c at " + str(self.timestp)
