@@ -1,144 +1,15 @@
-<!DOCTYPE html>
-{% load staticfiles %}
-<html lang="en">
-
-<head>
-
-    <meta charset="utf-8">
-
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Pi Brewing</title>
-    <link href="{% static 'temps/css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'temps/css/sb-admin.css' %}" rel="stylesheet">
-    <link href="{% static 'temps/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
-
-    <link rel="stylesheet" href="css/whhg.css">
-
-</head>
-
-<body>
-
-    <div id="wrapper">
-
-        <!-- Navigation -->
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="index.html">Pi Brewing</a>
+<!-- This template extends the base.html template -->
+{% extends 'temps/base.html' %}
+    {% block content %}
+    {% load staticfiles %}
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> New Batch</h3>
             </div>
-            <!-- Top Menu Items -->
-            <ul class="nav navbar-right top-nav">
-               
-                
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Michael McGuirk <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul class="nav navbar-nav side-nav">
-                    <li class="active">
-                        <a href="index.html"><i class="fa fa-fw fa-pie-chart"></i> Dashboard</a>
-                    </li>
-                    <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-beer"></i> Batch<i class="fa fa-fw fa-caret-down"></i></a>
-                        <ul id="demo" class="collapse">
-                            <li>
-                                <a href="#">Batch Settings</a>
-                            </li>
-                            <li>
-                                <a href="{% url 'new_batch' %}">New Batch</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-fw fa-table"></i> Compare</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-fw fa-clock-o"></i> History</a>
-                    </li>
-                </ul>
+            <div class="panel-body">
+                <div><img src="{% static 'temps/graph.png' %}" class="img-responsive" alt="Mock graph image for demo"></div>
             </div>
-            <!-- /.navbar-collapse -->
-        </nav>
-
-        <div id="page-wrapper">
-
-            <div class="container-fluid">
-
-                <!-- Page Heading -->
-                <!--Temp panel -->
-                <div class="row">
-                    <div class="col-lg-6">
-                        <h1 class="page-header">
-                            Dashboard <small>Brew Overview</small>
-                        </h1>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-green">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-balance-scale fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">{{ ct.tempc }}&#186;c</div>
-                                        <div>Current Temperature</div>
-                                        <div>{{ ct.timestp }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- /.row -->
-
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Last 24Hrs - (Mock image - Demo only)</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div><img src="{% static 'temps/graph.png' %}" class="img-responsive" alt="Mock graph image for demo"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.row -->
-            </div>
-            <!-- /.container-fluid -->
-
         </div>
-        <!-- /#page-wrapper -->
-
     </div>
-    <!-- /#wrapper -->
-    <script src="{% static 'temps/js/jquery.js' %}"></script>
-    <script src="{% static 'temps/js/bootstrap.min.js' %}"></script>
-</body>
-
-</html>
+    {% endblock %}

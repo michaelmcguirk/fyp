@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
-from .models import CurrentTemp
+from .models import CurrentTemp, Batch
 from .forms import BatchForm
 import temps.services as service
 
