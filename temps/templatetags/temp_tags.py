@@ -4,8 +4,7 @@ import temps.services as service
 register = template.Library()
 
 
-@register.inclusion_tag('temps/new_batch')
+@register.assignment_tag
 def get_current_temp():
 	ct = service.get_current_temp()
-	context = {'ct' : ct}
-	return render(context)
+	return {'ct' : ct}

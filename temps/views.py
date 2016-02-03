@@ -1,30 +1,33 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import CurrentTemp, Batch
-from .forms import BatchForm
+from .forms import NewBatchForm
 import temps.services as service
+
+def get_current_temp():
+    return service.get_current_temp()
 
 def index(request):
 	ct = service.get_current_temp()
-	context = {'ct' : ct}
+	context = {'ct' : get_current_temp()}
 	return render(request, 'temps/index.html', context)
 
 def new_batch(request):
     if request.method == "POST":
-        form = BatchForm(request.POST)
+        form = NewBatchForm(request.POST)
         if form.is_valid():
             model_instance = form.save(commit=False)
             # model_instance.timestamp = timezone.now()
             model_instance.save()
             return redirect('view_batch', pk=model_instance.batch_id)
     else:
-        form = BatchForm()
+        form = NewBatchForm()
 
-    return render(request, "temps/new_batch.html", {'form': form})
+    return render(request, "temps/new_batch.html", {'form': form, 'ct' : get_current_temp()})
 
 def view_batch(request, pk):
     batch = get_object_or_404(Batch, batch_id=pk)
-    return render(request, 'temps/view_batch.html', {'batch' : batch})
+    return render(request, 'temps/view_batch.html', {'batch' : batch, 'ct' : get_current_temp()})
 
 
 
