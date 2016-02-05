@@ -7,10 +7,7 @@
                 <div class="panel-heading">
                     <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> {{ batch.batch_name }}</h3>
                     <p>
-                        <form action="/view_batch/" method="get">
-                            <input type="hidden" id="batch_id" name="batch_id" value="{{ batch.batch_id }}">
-                            <input type="submit" value="Start Recording">
-                        </form>
+                        <button id="start_batch" batch-id="{{ batch.batch_id }}" type="button">Start Batch</button>
                     </p>
                 </div>
                 <div class="panel-body">

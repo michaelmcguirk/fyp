@@ -29,9 +29,16 @@ def view_batch(request, pk):
     batch = get_object_or_404(Batch, batch_id=pk)
     return render(request, 'temps/view_batch.html', {'batch' : batch, 'ct' : get_current_temp()})
 
-def start_batch(request, pk):
-    service.start_batch(pk)
-    view_batch(request, pk)
+def start_batch(request):
+    #context = RequestContext(request)
+    batch_id = None
+    if request.method == 'GET':
+        batch_id = request.GET['batch_id']
+
+    if batch_id:
+        service.start_batch(batch_id)
+
+    return HttpResponse(True)
 
 
 

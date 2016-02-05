@@ -37,16 +37,17 @@ def read_temp():
 	if equals_pos != -1:
 		temp_string = lines[1][equals_pos+2:]
 		temp_c = float(temp_string) / 1000.0
-		temp_f = temp_c * 9.0 / 5.0 + 32.0
+		temp_f = temp_c * 9.0 / 5.0 + 32.0 
 		return temp_c, temp_f
 
 # Read the user defined low and high settings from the database. Return in tuple.
 def read_user_temp():
-	cursor.execute("SELECT temp_low_c, temp_high_c FROM current_temp")
+	cursor.execute("SELECT temp_low_c, temp_high_c, current_batch_id_id FROM current_temp")
 	temps = cursor.fetchone()
 	temp_low = float(temps[0])
 	temp_high = float(temps[1])
-	return temp_low, temp_high
+	batch_id = int(temps[2])
+	return temp_low, temp_high, batch_id
 
 
 while True:
@@ -57,13 +58,14 @@ while True:
 	print(read_temp())
 	try:
 		# cursor.execute("INSERT INTO temps(tempc,tempf)VALUES(%.2f, %.2f)" % (read_temp()[0],read_temp()[1]))
-		cursor.execute("INSERT INTO temps(tempc,tempf,timestp)VALUES(%.2f, %.2f, %s)" % (read_temp()[0],read_temp()[1],currentTime))
-		cursor.execute("UPDATE current_temp SET tempc=%.2f,tempf=%.2f,timestp=%s where temp_id=1" % (read_temp()[0],read_temp()[1],currentTime))
-		db.commit()
 		user_temps = read_user_temp()
 		temp_low = user_temps[0]
 		temp_high = user_temps[1]
-		# Need to select high and lowest from current_temp here 
+		batch_id = user_temps[2]
+		cursor.execute("INSERT INTO temps(tempc,tempf,timestp, batch_id_id)VALUES(%.2f, %.2f, %s, %d)" % (read_temp()[0],read_temp()[1],currentTime,batch_id))
+		cursor.execute("UPDATE current_temp SET tempc=%.2f,tempf=%.2f,timestp=%s where temp_id=1" % (read_temp()[0],read_temp()[1],currentTime))
+		db.commit()
+		
 	except MySQLdb.Error, e:
 		print "MySQL Error: %s" % str(e)
 
