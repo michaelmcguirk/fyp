@@ -1,8 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
-from .models import CurrentTemp, Batch
+from .models import CurrentTemp, Batch, Temps
 from .forms import NewBatchForm
 import temps.services as service
+from graphos.renderers import gchart
+from graphos.sources.model import ModelDataSource
 
 def get_current_temp():
     return service.get_current_temp()
@@ -27,7 +29,10 @@ def new_batch(request):
 
 def view_batch(request, pk):
     batch = get_object_or_404(Batch, batch_id=pk)
-    return render(request, 'temps/view_batch.html', {'batch' : batch, 'ct' : get_current_temp()})
+    queryset = Temps.objects.all()
+    data_source = ModelDataSource(queryset,fields=['timestp', 'tempc'])
+    chart = gchart.LineChart(data_source)
+    return render(request, 'temps/view_batch.html', {'batch' : batch, 'ct' : get_current_temp(), 'chart' : chart})
 
 def start_batch(request):
     #context = RequestContext(request)
