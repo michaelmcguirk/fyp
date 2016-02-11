@@ -2,6 +2,7 @@
 {% extends 'temps/base.html' %}
     {% block content %}
     {% load staticfiles %}
+    <script src="{% static 'temps/js/jquery.js' %}"></script>
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -15,7 +16,9 @@
                     <p><b>End Date:</b> {{ batch.end_date }}</p>
                 </div>
                 <div>
-                    {{ point_chart.as_html }}
+                    {% load chartit %}
+                    {{ chart|load_charts:"container" }} 
+                     <div id='container'> Chart will be rendered here </div>
                 </div>
             </div>
         </div>

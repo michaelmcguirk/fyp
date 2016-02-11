@@ -3,8 +3,7 @@ from django.http import HttpResponse
 from .models import CurrentTemp, Batch, Temps
 from .forms import NewBatchForm
 import temps.services as service
-from graphos.renderers import gchart
-from graphos.sources.model import ModelDataSource
+from chartit import DataPool, Chart
 
 def get_current_temp():
     return service.get_current_temp()
@@ -28,10 +27,28 @@ def new_batch(request):
     return render(request, "temps/new_batch.html", {'form': form, 'ct' : get_current_temp()})
 
 def view_batch(request, pk):
+    temp_data = \
+    DataPool(series=[{'options': {'source': Temps.objects.all()},'terms': ['timestp','tempc']}])
+
+    chart = Chart(
+            datasource = temp_data,
+            series_options =
+              [{'options':{
+                  'type': 'line',
+                  'stacking': False},
+                'terms':{
+                  'timestp': [
+                    'tempc']
+                  }}],
+            chart_options =
+              {'title': {
+                   'text': 'Weather Data of Boston and Houston'},
+               'xAxis': {
+                    'title': {
+                       'text': 'Month number'}}})
+
+
     batch = get_object_or_404(Batch, batch_id=pk)
-    queryset = Temps.objects.all()
-    data_source = ModelDataSource(queryset,fields=['timestp', 'tempc'])
-    chart = gchart.LineChart(data_source)
     return render(request, 'temps/view_batch.html', {'batch' : batch, 'ct' : get_current_temp(), 'chart' : chart})
 
 def start_batch(request):
