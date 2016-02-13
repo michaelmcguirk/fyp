@@ -27,8 +27,9 @@ def new_batch(request):
     return render(request, "temps/new_batch.html", {'form': form, 'ct' : get_current_temp()})
 
 def view_batch(request, pk):
+    batch_temps = service.get_batch_temps(batch_id=pk)  
     temp_data = \
-    DataPool(series=[{'options': {'source': Temps.objects.all()},'terms': ['timestp','tempc']}])
+    DataPool(series=[{'options': {'source': batch_temps},'terms': ['timestp','tempc']}])
 
     chart = Chart(
             datasource = temp_data,
