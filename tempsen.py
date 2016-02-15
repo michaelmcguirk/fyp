@@ -70,11 +70,13 @@ while True:
 		temp_high = user_temps[1]
 		batch_id = user_temps[2]
 		insert_temps = """INSERT INTO temps(tempc,tempf,timestp, batch_id_id)VALUES(%s, %s, %s, %s)"""
+		update_current_temp = """UPDATE current_temp SET tempc=%s,tempf=%s,timestp=%s where temp_id=1"""
 		
 		#cursor.execute("INSERT INTO temps(tempc,tempf,timestp, batch_id_id)VALUES(%.2f, %.2f, %s, %d)" % (read_temp()[0],read_temp()[1],currentTime,batch_id))
 		cursor.execute(insert_temps, (read_temp()[0],read_temp()[1],currentTime,batch_id))
 
-		cursor.execute("UPDATE current_temp SET tempc=%.2f,tempf=%.2f,timestp=%s where temp_id=1" % (read_temp()[0],read_temp()[1],currentTime))
+		#cursor.execute("UPDATE current_temp SET tempc=%.2f,tempf=%.2f,timestp=%s where temp_id=1" % (read_temp()[0],read_temp()[1],currentTime))
+		cursor.execute(update_current_temp, (read_temp()[0],read_temp()[1],currentTime))
 		db.commit()
 		
 	except MySQLdb.Error, e:
