@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from .models import CurrentTemp, Batch, Temps
 from .forms import NewBatchForm
 import temps.services as service
-from chartit import DataPool, Chart
+import temps.charts as charts
+
 
 def get_current_temp():
     return service.get_current_temp()
@@ -27,39 +28,28 @@ def new_batch(request):
     return render(request, "temps/new_batch.html", {'form': form, 'ct' : get_current_temp()})
 
 def view_batch(request, pk):
-    batch_temps = service.get_batch_temps(batch_id=pk)  
-    temp_data = \
-    DataPool(series=[{'options': {'source': batch_temps},'terms': ['timestp','tempc']}])
-
-    chart = Chart(
-            datasource = temp_data,
-            series_options =
-              [{'options':{
-                  'type': 'line',
-                  'stacking': False},
-                'terms':{
-                  'timestp': [
-                    'tempc']
-                  }}],
-            chart_options =
-              {'title': {
-                   'text': 'Weather Data of Boston and Houston'},
-               'xAxis': {
-                    'title': {
-                       'text': 'Month number'}}})
-
-
     batch = get_object_or_404(Batch, batch_id=pk)
+    chart = charts.temps_chart(pk) 
+
     return render(request, 'temps/view_batch.html', {'batch' : batch, 'ct' : get_current_temp(), 'chart' : chart})
 
 def start_batch(request):
-    #context = RequestContext(request)
     batch_id = None
     if request.method == 'GET':
         batch_id = request.GET['batch_id']
 
     if batch_id:
         service.start_batch(batch_id)
+
+    return HttpResponse(True)
+
+def stop_batch(request):
+    batch_id = None
+    if request.method == 'GET':
+        batch_id = request.GET['batch_id']
+
+    if batch_id:
+        service.stop_batch(batch_id)
 
     return HttpResponse(True)
 

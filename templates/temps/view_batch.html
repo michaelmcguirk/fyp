@@ -8,12 +8,25 @@
                 <div class="panel-heading">
                     <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> {{ batch.batch_name }}</h3>
                     <p>
-                        <button id="start_batch" batch-id="{{ batch.batch_id }}" type="button">Start Batch</button>
+                        {% if ct.current_batch_id_id == batch.batch_id %}
+                            <button id="stop_batch" batch-id="{{ batch.batch_id }}" type="button">Stop Batch</button>
+                            (Current Batch)
+                        {% else %}
+                            <button id="start_batch" batch-id="{{ batch.batch_id }}" type="button">Start Batch</button>
+                        {% endif %}
                     </p>
                 </div>
                 <div class="panel-body">
-                    <p><b>Start Date:</b> {{ batch.start_date }}</p>
-                    <p><b>End Date:</b> {{ batch.end_date }}</p>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <p><b>Beer Type: </b> {{ batch.beer_type }}</p>
+                            <p><b>Volume: </b> {{ batch.volume_l }}</p>
+                        </div>
+                        <div class="col-lg-3">
+                            <p><b>Start Date:</b> {{ batch.start_date }}</p>
+                            <p><b>End Date:</b> {{ batch.end_date }}</p>
+                        </div>
+                    </div>
                 </div>
                 <div>
                     {% load chartit %}

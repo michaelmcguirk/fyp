@@ -9,4 +9,13 @@ $(document).ready(function() {
            });
 	});
 
+	$('#stop_batch').click(function(){
+    var batch_id;
+    batch_id = $(this).attr("batch-id");
+     $.get('/temps/stop_batch/', {batch_id: batch_id}, function(data){
+               alert("Batch Stopped");
+               $('#start_batch').hide();
+           });
+	});
+
 });
