@@ -58,6 +58,7 @@ while True:
 	print(read_temp())
 	try:
 		# cursor.execute("INSERT INTO temps(tempc,tempf)VALUES(%.2f, %.2f)" % (read_temp()[0],read_temp()[1]))
+		db.ping(True)
 		user_temps = read_user_temp()
 		temp_low = user_temps[0]
 		temp_high = user_temps[1]
