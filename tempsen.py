@@ -49,7 +49,8 @@ def read_user_temp():
 	temps = cursor.fetchone()
 	temp_low = float(temps[0])
 	temp_high = float(temps[1])
-	batch_id = int(temps[2])
+	#batch_id = int(temps[2])
+	batch_id = temps[2]
 	return temp_low, temp_high, batch_id
 
 
