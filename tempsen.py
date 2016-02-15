@@ -15,6 +15,7 @@ device_file = device_folder + '/w1_slave'
 G.setmode(G.BCM)
 G.setup(2,G.OUT)
 
+# DB Connection
 db=MySQLdb.connect("protodb.ctyoee9uibzm.us-west-2.rds.amazonaws.com","root","pibrewing","prototemps")
 print "SQL DB Connect success"
 cursor = db.cursor()
@@ -22,12 +23,14 @@ cursor.execute("SELECT VERSION()")
 temp_max = 20.00
 temp_min = 15.00
 
+# Read raw temperature data from the sensor
 def read_temp_raw():
 	f = open(device_file, 'r')
 	lines = f.readlines()
 	f.close()
 	return lines
 
+# Parse raw temperature data
 def read_temp():
 	lines = read_temp_raw()
 	while lines[0].strip()[-3:] != 'YES':
