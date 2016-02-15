@@ -47,8 +47,10 @@ def read_temp():
 def read_user_temp():
 	cursor.execute("SELECT temp_low_c, temp_high_c, current_batch_id_id FROM current_temp")
 	temps = cursor.fetchone()
-	temp_low = float(temps[0])
-	temp_high = float(temps[1])
+	temp_low = "{0:.2f}".format(temps[0])
+	#temp_low = float(temps[0])
+	temp_high = "{0:.2f}".format(temps[1])
+	#temp_high = float(temps[1])
 	#batch_id = int(temps[2])
 	batch_id = temps[2]
 	return temp_low, temp_high, batch_id
@@ -67,8 +69,11 @@ while True:
 		temp_low = user_temps[0]
 		temp_high = user_temps[1]
 		batch_id = user_temps[2]
+		insert_temps = """INSERT INTO temps(tempc,tempf,timestp, batch_id_id)VALUES(%s, %s, %s, %s)"""
+		
 		#cursor.execute("INSERT INTO temps(tempc,tempf,timestp, batch_id_id)VALUES(%.2f, %.2f, %s, %d)" % (read_temp()[0],read_temp()[1],currentTime,batch_id))
-		cursor.execute("INSERT INTO temps(tempc,tempf,timestp, batch_id_id)VALUES(%.2f, %.2f, %s, %s)" % (read_temp()[0],read_temp()[1],currentTime,batch_id))
+		cursor.execute(insert_temps, (read_temp()[0],read_temp()[1],currentTime,batch_id))
+
 		cursor.execute("UPDATE current_temp SET tempc=%.2f,tempf=%.2f,timestp=%s where temp_id=1" % (read_temp()[0],read_temp()[1],currentTime))
 		db.commit()
 		
