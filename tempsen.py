@@ -67,7 +67,8 @@ while True:
 		temp_low = user_temps[0]
 		temp_high = user_temps[1]
 		batch_id = user_temps[2]
-		cursor.execute("INSERT INTO temps(tempc,tempf,timestp, batch_id_id)VALUES(%.2f, %.2f, %s, %d)" % (read_temp()[0],read_temp()[1],currentTime,batch_id))
+		#cursor.execute("INSERT INTO temps(tempc,tempf,timestp, batch_id_id)VALUES(%.2f, %.2f, %s, %d)" % (read_temp()[0],read_temp()[1],currentTime,batch_id))
+		cursor.execute("INSERT INTO temps(tempc,tempf,timestp, batch_id_id)VALUES(%.2f, %.2f, %s, %s)" % (read_temp()[0],read_temp()[1],currentTime,batch_id))
 		cursor.execute("UPDATE current_temp SET tempc=%.2f,tempf=%.2f,timestp=%s where temp_id=1" % (read_temp()[0],read_temp()[1],currentTime))
 		db.commit()
 		
