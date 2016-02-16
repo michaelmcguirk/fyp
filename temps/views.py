@@ -33,6 +33,12 @@ def view_batch(request, pk):
 
     return render(request, 'temps/view_batch.html', {'batch' : batch, 'ct' : get_current_temp(), 'chart' : chart})
 
+def compare(request, pk):
+    batches = Batch.objects.filter(user_id=pk)
+    batch = batches[0].batch_id
+
+    return render(request, 'temps/compare.html', {'batch' : batch, 'ct' : get_current_temp(), 'batches' : batches})
+
 def start_batch(request):
     batch_id = None
     if request.method == 'GET':

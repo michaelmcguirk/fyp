@@ -1,0 +1,45 @@
+<!-- This template extends the base.html template -->
+{% extends 'temps/base.html' %}
+    {% block content %}
+    {% load staticfiles %}
+    <script src="{% static 'temps/js/jquery.js' %}"></script>
+        <div class="col-lg-12">
+            <div class="panel panel-default" id="panel_1">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> {{ batch.batch_name }}</h3>
+                    <p>
+                    
+                        <select name="batch_1">
+                            <option value="" disabled selected>Select Batch</option>
+                            {% for b in batches %}
+                                <option value="{{ b.batch_id }}">{{ b.batch_name }}</option>
+                            {% endfor %}
+                        </select>
+                        <select name="batch_2">
+                            <option value="" disabled selected>Select Batch</option>
+                            {% for b in batches %}
+                                <option value="{{ b.batch_id }}">{{ b.batch_name }}</option>
+                            {% endfor %}
+                        </select>    
+                     
+                    </p>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <p><b>Beer Type: </b> {{ batch.beer_type }}</p>
+                            <p><b>Volume: </b> {{ batch.volume_l }}</p>
+                        </div>
+                        <div class="col-lg-3">
+                            <p><b>Start Date:</b> {{ batch.start_date }}</p>
+                            <p><b>End Date:</b> {{ batch.end_date }}</p>
+                        </div>
+                    </div>
+                    <div>
+                        {% load chartit %}
+                        <div id='container'> Chart will be rendered here </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
