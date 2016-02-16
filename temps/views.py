@@ -36,8 +36,9 @@ def view_batch(request, pk):
 def compare(request, pk):
     batches = Batch.objects.filter(user_id=pk)
     batch = batches[0].batch_id
+    chart = charts.compare_chart(1,2)
 
-    return render(request, 'temps/compare.html', {'batch' : batch, 'ct' : get_current_temp(), 'batches' : batches})
+    return render(request, 'temps/compare.html', {'batch' : batch, 'ct' : get_current_temp(), 'batches' : batches, 'chart' : chart})
 
 def start_batch(request):
     batch_id = None
