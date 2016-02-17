@@ -29,9 +29,11 @@ def new_batch(request):
 
 def view_batch(request, pk):
     batch = get_object_or_404(Batch, batch_id=pk)
-    chart = charts.temps_chart_numbered(pk) 
+    batch_temps = service.get_batch_temps(batch_id = pk)
+    chart = charts.temps_chart_numbered(batch_temps)
+    djangodict = charts.google_chart(batch_temps)
 
-    return render(request, 'temps/view_batch.html', {'batch' : batch, 'ct' : get_current_temp(), 'chart' : chart})
+    return render(request, 'temps/view_batch.html', {'batch' : batch, 'ct' : get_current_temp(), 'chart' : chart, 'djangodict' : djangodict})
 
 def compare(request, pk):
     batches = Batch.objects.filter(user_id=pk)

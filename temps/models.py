@@ -51,12 +51,14 @@ class Temps(models.Model):
     tempc = models.FloatField(blank=True, null=True)
     tempf = models.FloatField(blank=True, null=True)
     timestp = models.DateTimeField(blank=True, null=True)
+    seq_no = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return "Id: " + str(self.temp_id) + ", Temp_c: " + str(self.tempc) + ", Temp_f: " + str(self.tempf)  + ", Time: " + str(self.timestp)
 
     class Meta:
         db_table = 'temps'
+        ordering = ['timestp']
 
 class UserSettings(models.Model):
     setting_id = models.AutoField(primary_key=True)

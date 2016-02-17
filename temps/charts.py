@@ -27,11 +27,9 @@ def temps_chart(batch_id):
 			'text': 'Date / Time'}}})
 	return chart
 
-def temps_chart_numbered(batch_id):
-	batch_temps = service.get_batch_temps(batch_id=batch_id)
-	
-
-	batch = get_object_or_404(Batch, batch_id=batch_id) 
+def temps_chart_numbered(batch_temps):
+	#batch_temps = service.get_batch_temps(batch_id=batch_id)
+	batch = get_object_or_404(Batch, batch_id=1) 
 	temp_data = \
 	DataPool(series=[{'options': {'source': batch_temps},'terms': ['seq_no','tempc']}])
 
@@ -52,6 +50,12 @@ def temps_chart_numbered(batch_id):
 			'title': {
 			'text': 'Date / Time'}}})
 	return chart
+
+def google_chart(batch_temps):
+	data = [['Sequence','Temp']]
+	for b in batch_temps:
+		data.append([b.seq_no,b.tempc])
+	return data
 
 def compare_chart(batch_id_a, batch_id_b):
 	batch_temps_a = service.get_batch_temps(batch_id=batch_id_a)
