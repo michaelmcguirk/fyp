@@ -6,7 +6,13 @@ from temps.models import Batch
 
 def get_batch_temps(**filters):
 	#Stuff here
-	return Temps.objects.filter(**filters)
+	batches = Temps.objects.filter(**filters)
+	seq = 1
+	for b in batches:
+		b.seq_no = seq
+		seq+=1
+	return  batches
+
 
 def get_batch(batch_id=1):
 	return Batch.objects.get(batch_id)

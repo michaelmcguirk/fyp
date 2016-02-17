@@ -27,6 +27,32 @@ def temps_chart(batch_id):
 			'text': 'Date / Time'}}})
 	return chart
 
+def temps_chart_numbered(batch_id):
+	batch_temps = service.get_batch_temps(batch_id=batch_id)
+	
+
+	batch = get_object_or_404(Batch, batch_id=batch_id) 
+	temp_data = \
+	DataPool(series=[{'options': {'source': batch_temps},'terms': ['seq_no','tempc']}])
+
+	chart = Chart(
+		datasource = temp_data,
+		series_options =
+		[{'options':{
+			'type': 'line',
+			'stacking': False},
+			'terms':{
+			'seq_no': [
+			'tempc']
+			}}],
+			chart_options =
+			{'title': {
+			'text': 'All temperature readings for: ' + batch.batch_name},
+			'xAxis': {
+			'title': {
+			'text': 'Date / Time'}}})
+	return chart
+
 def compare_chart(batch_id_a, batch_id_b):
 	batch_temps_a = service.get_batch_temps(batch_id=batch_id_a)
 	batch_temps_b = service.get_batch_temps(batch_id=batch_id_b)

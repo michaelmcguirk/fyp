@@ -29,7 +29,7 @@ def new_batch(request):
 
 def view_batch(request, pk):
     batch = get_object_or_404(Batch, batch_id=pk)
-    chart = charts.temps_chart(pk) 
+    chart = charts.temps_chart_numbered(pk) 
 
     return render(request, 'temps/view_batch.html', {'batch' : batch, 'ct' : get_current_temp(), 'chart' : chart})
 
