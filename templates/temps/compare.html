@@ -3,6 +3,7 @@
     {% block content %}
     {% load staticfiles %}
     <script src="{% static 'temps/js/jquery.js' %}"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <div class="col-lg-12">
             <div class="panel panel-default" id="panel_1">
                 <div class="panel-heading">
@@ -36,11 +37,24 @@
                         </div>
                     </div>
                     <div>
-                        {% load chartit %}
-                        {{ chart|load_charts:"container" }} 
-                        <div id='container'> Chart will be rendered here </div>
+                        <div id='chart_div'> Chart will be rendered here </div>
                     </div>
                 </div>
             </div>
         </div>
+
+<script type="text/javascript"> 
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var batchA = {{batch_a|safe}};
+      var batchB = {{batch_b|safe}};
+      var dataA = google.visualization.arrayToDataTable(batchA);
+      var dataB = google.visualization.arrayToDataTable(batchB);
+      var compareData = google.visualization.data.join(dataA, dataB, 'full', [[0, 0]], [1], [1]);
+      var options = {title: 'Comparing Batches', width:600, height:300};
+      var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+      chart.draw(compareData, options);
+    }
+</script>
     {% endblock %}

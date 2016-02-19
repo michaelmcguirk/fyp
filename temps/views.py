@@ -38,9 +38,12 @@ def view_batch(request, pk):
 def compare(request, pk):
     batches = Batch.objects.filter(user_id=pk)
     batch = batches[0].batch_id
-    chart = charts.compare_chart(1,2)
+    batch_a_temps = service.get_batch_temps(batch_id = 1)
+    batch_b_temps = service.get_batch_temps(batch_id = 2)
+    batch_a = charts.google_chart(batch_a_temps)
+    batch_b = charts.google_chart(batch_b_temps)
 
-    return render(request, 'temps/compare.html', {'batch' : batch, 'ct' : get_current_temp(), 'batches' : batches, 'chart' : chart})
+    return render(request, 'temps/compare.html', {'batch' : batch, 'ct' : get_current_temp(), 'batches' : batches, 'batch_a':batch_a, 'batch_b':batch_b})
 
 def start_batch(request):
     batch_id = None
