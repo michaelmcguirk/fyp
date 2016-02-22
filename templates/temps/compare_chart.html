@@ -1,0 +1,25 @@
+<script type="text/javascript">
+    var batchA = {{batch_a | safe}};
+    var batchB = {{batch_b | safe}};
+</script>
+<div class="row">
+    <div class="col-lg-3">
+        <p><b>Beer Type: </b> {{ batch_data.0.beer_type }}</p>
+        <p><b>Volume: </b> {{ batch_data.0.volume_l }}</p>
+    </div>
+    <div class="col-lg-3">
+        <p><b>Start Date:</b> {{ batch_data.0.start_date }}</p>
+        <p><b>End Date:</b> {{ batch.end_date }}</p>
+    </div>
+     <div class="col-lg-3">
+        <p><b>Beer Type: </b> {{ batch_data.1.beer_type }}</p>
+        <p><b>Volume: </b> {{ batch_data.1.volume_l }}</p>
+    </div>
+    <div class="col-lg-3">
+        <p><b>Start Date:</b> {{ batch_data.1.start_date }}</p>
+        <p><b>End Date:</b> {{ batch_data.1.end_date }}</p>
+    </div>
+</div>
+<div id='chart_div'> 
+	Seclect which data to load...
+</div>

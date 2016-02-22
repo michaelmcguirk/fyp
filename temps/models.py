@@ -13,7 +13,7 @@ from django.contrib.auth.models import User
 from django.db import models
 
 class Batch(models.Model):
-    batch_id = models.AutoField(primary_key=True)
+    #batch_id = models.AutoField(primary_key=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     start_date = models.DateTimeField(blank=True, null=True)
     end_date = models.DateTimeField(blank=True, null=True)
@@ -60,12 +60,12 @@ class Temps(models.Model):
         db_table = 'temps'
         ordering = ['timestp']
 
-class UserSettings(models.Model):
-    setting_id = models.AutoField(primary_key=True)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+class UserBatchSettings(models.Model):
+    TEMPERATURE_FORMAT = (('C','Celsius'),('F','Faranheit'))
+    user_id = models.OneToOneField(User, on_delete=models.CASCADE)
     def_temp_low = models.FloatField(blank=True, null=True)
     def_temp_high = models.FloatField(blank=True, null=True)
-    def_temp_format = models.CharField(max_length=1)
+    def_temp_format = models.CharField(max_length=1,choices=TEMPERATURE_FORMAT,default='C')
 
     class Meta:
-        db_table = 'user_settings'
+        db_table = 'user_batch_settings'

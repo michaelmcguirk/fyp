@@ -15,7 +15,7 @@ def get_batch_temps(**filters):
 
 
 def get_batch(batch_id=1):
-	return Batch.objects.get(batch_id)
+	return Batch.objects.get(pk=batch_id)
 
 def get_current_temp():
 	return CurrentTemp.objects.get(temp_id=1)

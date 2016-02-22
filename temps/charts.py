@@ -51,8 +51,14 @@ def temps_chart_numbered(batch_temps):
 			'text': 'Date / Time'}}})
 	return chart
 
-def google_chart(batch_temps):
+def google_chart_3(batch_temps):
 	data = [['Sequence','Temp']]
 	for b in batch_temps:
 		data.append([b.seq_no,b.tempc])
+	return data
+
+def google_chart(batch_temps):
+	data = []
+	for b in batch_temps:
+		data.append([b.seq_no,b.tempc,b.timestp.strftime("%Y-%m-%d %H:%M:%S")])
 	return data
