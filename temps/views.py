@@ -1,20 +1,23 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import CurrentTemp, Batch, Temps
 from .forms import NewBatchForm, UserForm, UserSettingsForm
 import temps.services as service
 import temps.charts as charts
+from django.contrib.auth.decorators import login_required
 
 
 def get_current_temp():
     return service.get_current_temp()
 
+@login_required
 def index(request):
 	ct = service.get_current_temp()
 	context = {'ct' : get_current_temp()}
 	return render(request, 'temps/index.html', context)
 
+@login_required
 def new_batch(request):
     if request.method == "POST":
         form = NewBatchForm(request.POST)
@@ -28,6 +31,7 @@ def new_batch(request):
 
     return render(request, "temps/new_batch.html", {'form': form, 'ct' : get_current_temp()})
 
+@login_required
 def edit_batch(request, pk):
     batch = get_object_or_404(Batch, pk=pk)
     form = NewBatchForm(request.POST, instance=batch)
@@ -40,6 +44,7 @@ def edit_batch(request, pk):
 
     return render(request, "temps/edit_batch.html", {'form': form, 'ct' : get_current_temp()})
 
+@login_required
 def view_batch(request, pk):
     batch = get_object_or_404(Batch, id=pk)
     batch_temps = service.get_batch_temps(batch_id = pk)
@@ -47,11 +52,13 @@ def view_batch(request, pk):
 
     return render(request, 'temps/view_batch.html', {'batch' : batch, 'ct' : get_current_temp(), 'djangodict' : djangodict})
 
+@login_required
 def view_user_batches(request,pk):
     batches=Batch.objects.filter(user_id=pk)
 
     return render(request, 'temps/view_user_batches.html', {'batches' : batches, 'ct' : get_current_temp()})
 
+@login_required
 def compare(request, pk):
     batches = Batch.objects.filter(user_id=pk)
     batch = batches[0].id
@@ -62,6 +69,7 @@ def compare(request, pk):
 
     return render(request, 'temps/compare.html', {'batch' : batch, 'ct' : get_current_temp(), 'batches' : batches, 'batch_a':batch_a, 'batch_b':batch_b})
 
+@login_required
 def start_batch(request):
     batch_id = None
     if request.method == 'GET':
@@ -72,6 +80,7 @@ def start_batch(request):
 
     return HttpResponse(True)
 
+@login_required
 def stop_batch(request):
     batch_id = None
     if request.method == 'GET':
@@ -82,6 +91,7 @@ def stop_batch(request):
 
     return HttpResponse(True)
 
+@login_required
 def serve_compare_chart(request,b1,b2):
     batch_a = charts.google_chart(service.get_batch_temps(batch_id = b1))
     batch_b = charts.google_chart(service.get_batch_temps(batch_id = b2))
@@ -131,4 +141,8 @@ def user_login(request):
             return HttpResponse("Invalid login details supplied.")
     else:
         return render(request, 'temps/login.html', {})
+
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect('/temps/login')
 
