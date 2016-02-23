@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import CurrentTemp, Batch, Temps
-from .forms import NewBatchForm
+from .forms import NewBatchForm, UserForm, UserSettingsForm
 import temps.services as service
 import temps.charts as charts
 
@@ -88,11 +88,46 @@ def serve_compare_chart(request,b1,b2):
     return render(request, 'temps/compare_chart.html', {'batch_a':batch_a, 'batch_b':batch_b, 'batch_data':batch_data})
 
 
+def register(request):
+    registered = False
 
+    if request.method == 'POST':
+        user_form = UserForm(data=request.POST)
+        user_settings_form = UserSettingsForm(data=request.POST)
 
-# def index(request):
-# 	ct = CurrentTemp.objects.order_by('timestp')[0]
-# 	context = {'ct' : ct}
-# 	return render(request, 'temps/index.html', context)
+        if user_form.is_valid() and user_settings_form.is_valid():
+            # User Instance
+            user = user_form.save()
+            user.set_password(user.password)
+            user.save()
+            # Settings Instance
+            settings = user_settings_form.save(commit=False)
+            settings.user_id = user
+            settings.save()
 
-# Create your views here.
+            registered = True
+        else:
+            print user_form.errors, user_settings_form.errors
+    else:
+        user_form = UserForm()
+        user_settings_form = UserSettingsForm()
+
+    return render(request,'temps/register.html',{'user_form': user_form, 'user_settings_form': user_settings_form, 'registered': registered})
+
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user:
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect('/temps/')
+            else:
+                return HttpResponse("Account is no longer Active. Likely Disabled... - Contact Admin")
+        else:
+            print "Invalid login details: {0}, {1}".format(username, password)
+            return HttpResponse("Invalid login details supplied.")
+    else:
+        return render(request, 'temps/login.html', {})
+
