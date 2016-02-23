@@ -12,5 +12,6 @@ urlpatterns = [
     url(r'^serve_compare_chart/(?P<b1>[0-9]+)/(?P<b2>[0-9]+)/$', views.serve_compare_chart, name='serve_compare_chart'),
     url(r'^view_user_batches/(?P<pk>[0-9]+)/$', views.view_user_batches, name='view_user_batches'),
     url(r'^register/$', views.register, name='register'),
+    url(r'^login/$', views.user_login, name='login'),
     url(r'^$', views.index, name='index')
 ]

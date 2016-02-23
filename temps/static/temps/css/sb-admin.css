@@ -27,6 +27,10 @@ body {
     background-color: #fff;
 }
 
+#login-box {
+    background-color: #f0f0f5;
+}
+
 .huge {
     font-size: 50px;
     line-height: normal;
