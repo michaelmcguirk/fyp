@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import CurrentTemp, Batch, Temps
+from .models import CurrentTemp, Batch, Temps, UserBatchSettings
 from .forms import NewBatchForm, UserForm, UserSettingsForm
 import temps.services as service
 import temps.charts as charts
@@ -145,4 +145,31 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect('/temps/login')
+
+def edit_user_settings(request):
+    current_user = request.user
+    print current_user.username
+    user_setting = get_object_or_404(UserBatchSettings, user_id = current_user)
+    user_form = UserSettingsForm(request.POST, instance=user_setting)
+    if request.method == 'POST':
+        if user_form.is_valid():
+            user_form.save()
+            return redirect('/temps/')
+    else:
+        form = UserSettingsForm(instance =user_setting)
+
+    return render(request, "temps/edit_user_settings.html", {'user_form': user_form, 'ct' : get_current_temp()})
+
+# def edit_batch(request, pk):
+#     batch = get_object_or_404(Batch, pk=pk)
+#     form = NewBatchForm(request.POST, instance=batch)
+#     if request.method == 'POST':
+#         if form.is_valid():
+#             form.save()
+#             return redirect('view_batch', pk=pk)
+#     else:
+#         form = NewBatchForm(instance =batch)
+
+#     return render(request, "temps/edit_batch.html", {'form': form, 'ct' : get_current_temp()})
+
 
