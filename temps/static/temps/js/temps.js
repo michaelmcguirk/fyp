@@ -42,17 +42,14 @@ $(document).ready(function() {
     if($('#single_batch_chart').length)
     {
         console.log("single batch chart function running");
-        google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawChart);
         function drawChart() {
-          //var djangodata = dataset;
-          //var data = google.visualization.arrayToDataTable(djangodata);
           var data = new google.visualization.DataTable();
           data.addColumn('number','Sequence');
           data.addColumn('number','Temp C');
           data.addColumn({type: 'string', role: 'tooltip'});
           data.addRows(djangodata);
-          var options = {title: 'My Daily Activities'};
+          var options = {title: 'Batch', width:'100%', height:300};
           var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
           chart.draw(data, options);
         }
@@ -61,24 +58,34 @@ $(document).ready(function() {
   
 
   function loadCompareChart(){
-    console.log("compare batch chart function running")
-    google.charts.setOnLoadCallback(drawChart);
-    function drawChart() {
-      var dataA = new google.visualization.DataTable();
-      dataA.addColumn('number','Sequence');
-      dataA.addColumn('number','Temp C - A');
-      dataA.addColumn({type: 'string', role: 'tooltip'});
-      dataA.addRows(batchA);
-      var dataB = new google.visualization.DataTable();      
-      dataB.addColumn('number','Sequence');
-      dataB.addColumn('number','Temp C - B');
-      dataB.addColumn({type: 'string', role: 'tooltip'});
-      dataB.addRows(batchB);
-      var compareData = google.visualization.data.join(dataA, dataB, 'full', [[0, 0]], [1,2], [1,2]);
-      var options = {title: 'Comparing Batches', width:'100%', height:300};
-      var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-      chart.draw(compareData, options);
-    }
-  }  
+    if($('#compare_batch_chart').length)
+    {  
+      console.log("compare batch chart function running")
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var dataA = new google.visualization.DataTable();
+        dataA.addColumn('number','Sequence');
+        dataA.addColumn('number','Temp C - A');
+        dataA.addColumn({type: 'string', role: 'tooltip'});
+        dataA.addRows(batchA);
+        var dataB = new google.visualization.DataTable();      
+        dataB.addColumn('number','Sequence');
+        dataB.addColumn('number','Temp C - B');
+        dataB.addColumn({type: 'string', role: 'tooltip'});
+        dataB.addRows(batchB);
+        var compareData = google.visualization.data.join(dataA, dataB, 'full', [[0, 0]], [1,2], [1,2]);
+        var options = {title: 'Comparing Batches', width:'100%', height:300};
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+        chart.draw(compareData, options);
+      }
+    }  
+  }
+
+  loadSingleChart();
+
+  $(window).resize(function(){
+    loadSingleChart();
+    loadCompareChart();
+  });
 
 });

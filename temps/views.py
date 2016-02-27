@@ -13,9 +13,12 @@ def get_current_temp():
 
 @login_required
 def index(request):
-	ct = service.get_current_temp()
-	context = {'ct' : get_current_temp()}
-	return render(request, 'temps/index.html', context)
+    ct = get_current_temp()
+    current_batch = ct.current_batch_id
+    batch_temps = service.get_batch_temps(batch_id = current_batch)
+    djangodict = charts.google_chart(batch_temps)
+    context = {'ct' : get_current_temp(), 'djangodict' : djangodict}
+    return render(request, 'temps/index.html', context)
 
 @login_required
 def new_batch(request):
@@ -115,6 +118,7 @@ def register(request):
             settings = user_settings_form.save(commit=False)
             settings.user_id = user
             settings.save()
+            print "Saved user" + str(settings.def_temp_low)
 
             registered = True
         else:
@@ -150,26 +154,16 @@ def edit_user_settings(request):
     current_user = request.user
     print current_user.username
     user_setting = get_object_or_404(UserBatchSettings, user_id = current_user)
+    print "Updating settings for Username: " + str(current_user.username) 
     user_form = UserSettingsForm(request.POST, instance=user_setting)
     if request.method == 'POST':
         if user_form.is_valid():
             user_form.save()
             return redirect('/temps/')
     else:
-        form = UserSettingsForm(instance =user_setting)
+        user_form = UserSettingsForm(instance =user_setting)
 
     return render(request, "temps/edit_user_settings.html", {'user_form': user_form, 'ct' : get_current_temp()})
 
-# def edit_batch(request, pk):
-#     batch = get_object_or_404(Batch, pk=pk)
-#     form = NewBatchForm(request.POST, instance=batch)
-#     if request.method == 'POST':
-#         if form.is_valid():
-#             form.save()
-#             return redirect('view_batch', pk=pk)
-#     else:
-#         form = NewBatchForm(instance =batch)
-
-#     return render(request, "temps/edit_batch.html", {'form': form, 'ct' : get_current_temp()})
 
 

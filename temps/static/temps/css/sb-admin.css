@@ -21,6 +21,11 @@ body {
     padding-left: 0;
 }
 
+#chart_div {
+    width:inherit;
+    height:inherit;
+}
+
 #page-wrapper {
     width: 100%;
     padding: 0;

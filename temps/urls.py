@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from . import views
 
@@ -17,3 +18,5 @@ urlpatterns = [
     url(r'^edit_user_settings/$', views.edit_user_settings, name='edit_user_settings'),
     url(r'^$', views.index, name='index')
 ]
+
+urlpatterns += staticfiles_urlpatterns()

@@ -20,9 +20,7 @@
 </head>
 
 <body>
-
     <div id="wrapper">
-
         <!-- Navigation -->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -33,7 +31,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Pi Brewing</a>
+                <a class="navbar-brand" href="/temps/">Pi Brewing</a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -44,7 +42,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{user.username}} <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                            <a href="/temps/edit_user_settings/"><i class="fa fa-fw fa-gear"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
                         <li>
@@ -57,13 +55,13 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li class="active">
-                        <a href="index.html"><i class="fa fa-fw fa-pie-chart"></i> Dashboard</a>
+                        <a href="/temps/"><i class="fa fa-fw fa-pie-chart"></i> Dashboard</a>
                     </li>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-beer"></i> Batch<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
                             <li>
-                                <a href="#">Batch Settings</a>
+                                <a href="/temps/view_user_batches/{{user.id}}">View Batches</a>
                             </li>
                             <li>
                                 <a href="{% url 'new_batch' %}">New Batch</a>
@@ -72,9 +70,6 @@
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-fw fa-table"></i> Compare</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-fw fa-clock-o"></i> History</a>
                     </li>
                 </ul>
             </div>
@@ -130,8 +125,7 @@
     <!-- /#wrapper -->
 
 </body>
-    <script src="{% static 'temps/js/jquery.js' %}"></script>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="{% static 'temps/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'temps/js/temps.js' %}"></script>
+    <script src="/static/temps/js/jquery.js"></script>
+    <script src="/static/temps/js/bootstrap.min.js"></script>
+    <script src="/static/temps/js/temps.js"></script>
 </html>

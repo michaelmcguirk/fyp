@@ -2,13 +2,17 @@
 {% extends 'temps/base.html' %}
     {% block content %}
     {% load staticfiles %}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">var djangodata = {{djangodict|safe}};</script>
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> New Batch</h3>
+                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>Current Running Batch</h3>
             </div>
             <div class="panel-body">
-                <div><img src="{% static 'temps/graph.png' %}" class="img-responsive" alt="Mock graph image for demo"></div>
+                <div id="single_batch_chart">
+                    <div id="chart_div"></div>
+                </div>
             </div>
         </div>
     </div>
