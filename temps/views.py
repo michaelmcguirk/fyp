@@ -85,12 +85,8 @@ def start_batch(request):
 
 @login_required
 def stop_batch(request):
-    batch_id = None
     if request.method == 'GET':
-        batch_id = request.GET['batch_id']
-
-    if batch_id:
-        service.stop_batch(batch_id)
+        service.stop_batch()
 
     return HttpResponse(True)
 

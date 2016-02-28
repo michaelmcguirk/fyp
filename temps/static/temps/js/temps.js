@@ -1,10 +1,10 @@
 $(document).ready(function() {
-  console.log("Hello....");
+  console.log("Hello....JQuery Document Loaded");
   google.charts.load('current', {'packages':['corechart']});
   console.log("Google Charts Loaded");
 
-	$('#start_batch').click(function(){
-    console.log("hello");
+/*	$('#start_batch').click(function(){
+    console.log("Starting batch");
     var batch_id;
     batch_id = $(this).attr("batch-id");
      $.get('/temps/start_batch/', {batch_id: batch_id}, function(data){
@@ -14,13 +14,35 @@ $(document).ready(function() {
 	});
 
 	$('#stop_batch').click(function(){
-    var batch_id;
-    batch_id = $(this).attr("batch-id");
-     $.get('/temps/stop_batch/', {batch_id: batch_id}, function(data){
+     $.get('/temps/stop_batch/', function(data){
                alert("Batch Stopped");
-               $('#start_batch').hide();
+               $('#stop_batch').hide();
            });
-	});
+	});*/
+
+  $('#start_stop').click(function(){
+    var status = $(this).attr("status");
+    if(status == "stopped"){
+      var batch_id;
+      batch_id = $(this).attr("batch-id");
+      $.get('/temps/start_batch/', {batch_id: batch_id}, function(data){
+              $('#start_stop').addClass("btn-danger").removeClass("btn-success");
+              $('#start_stop').text('Stop Batch');
+              $('#start_stop').attr("status", "started");
+              alert("Batch Started");
+              $('#start_batch').hide();
+      });
+    }
+    else if(status == "started"){
+      $.get('/temps/stop_batch/', function(data){
+              $('#start_stop').addClass("btn-success").removeClass("btn-danger");
+              $('#start_stop').text('Start Batch');
+              $('#start_stop').attr("status","stopped");
+              alert("Batch Stopped");
+              $('#stop_batch').hide();
+      });
+    }
+  });
 
   $('#load_chart').click(function(){
     var b1 = $('#batch_1').val();
@@ -59,7 +81,7 @@ $(document).ready(function() {
 
   function loadCompareChart(){
     if($('#compare_batch_chart').length)
-    {  
+    {   
       console.log("compare batch chart function running")
       google.charts.setOnLoadCallback(drawChart);
       function drawChart() {

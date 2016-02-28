@@ -11,11 +11,15 @@
                 <div class="panel-heading">
                     <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> {{ batch.batch_name }}</h3>
                     <p>
-                        {% if ct.current_batch_id_id == batch.batch_id %}
-                            <button id="stop_batch" batch-id="{{ batch.batch_id }}" type="button">Stop Batch</button>
-                            (Current Batch)
+                        {% if ct.current_batch_id_id == batch.id %}
+                            <p> This is the current running batch </p>
+                            <button class="btn btn-danger" id="start_stop" status="started" batch-id="{{ batch.id }}" type="button">
+                                Stop Batch
+                            </button>
                         {% else %}
-                            <button id="start_batch" batch-id="{{ batch.batch_id }}" type="button">Start Batch</button>
+                            <button class="btn btn-success" id="start_stop" status="stopped" batch-id="{{ batch.id }}" type="button">
+                                Start Batch
+                            </button>
                         {% endif %}
                     </p>
                 </div>
