@@ -9,7 +9,9 @@ from django.contrib.auth.models import User
 class NewBatchForm(ModelForm):
 	class Meta:
 		model = Batch
-		fields = ['start_date', 'end_date', 'batch_name', 'beer_type', 'volume_l', 'initial_gravity', 'initial_temp']
+		fields = ['start_date', 'end_date', 'batch_name', 'beer_type', 'volume_l', 'initial_gravity', 'initial_temp', 'temp_high_c', 'temp_low_c']
+
+
 
 class UserForm(ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())

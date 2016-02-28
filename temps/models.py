@@ -26,6 +26,8 @@ class Batch(models.Model):
     body_rating = models.IntegerField(blank=True, null=True)
     taste_rating = models.IntegerField(blank=True, null=True)
     notes = models.CharField(max_length=100)
+    temp_high_c = models.FloatField(blank=True, null=True)
+    temp_low_c = models.FloatField(blank=True, null=True)
 
     class Meta:
         db_table = 'batch'

@@ -70,6 +70,7 @@ $(document).ready(function() {
           data.addColumn('number','Sequence');
           data.addColumn('number','Temp C');
           data.addColumn({type: 'string', role: 'tooltip'});
+          data.addColumn({type: 'string', role: 'style'});
           data.addRows(djangodata);
           var options = {title: 'Batch', width:'100%', height:300};
           var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
@@ -77,6 +78,24 @@ $(document).ready(function() {
         }
     }
   }
+
+    /*function loadSingleChart(){
+    if($('#single_batch_chart').length)
+    {
+        console.log("single batch chart function running");
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+          var data = new google.visualization.DataTable();
+          data.addColumn('number','Sequence');
+          data.addColumn('number','Temp C');
+          data.addColumn({type: 'string', role: 'tooltip'});
+          data.addRows(djangodata);
+          var options = {title: 'Batch', width:'100%', height:300};
+          var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+          chart.draw(data, options);
+        }
+    }
+  }*/
   
 
   function loadCompareChart(){
@@ -89,13 +108,15 @@ $(document).ready(function() {
         dataA.addColumn('number','Sequence');
         dataA.addColumn('number','Temp C - A');
         dataA.addColumn({type: 'string', role: 'tooltip'});
+        dataA.addColumn({type: 'string', role: 'style'});
         dataA.addRows(batchA);
         var dataB = new google.visualization.DataTable();      
         dataB.addColumn('number','Sequence');
         dataB.addColumn('number','Temp C - B');
         dataB.addColumn({type: 'string', role: 'tooltip'});
+        dataB.addColumn({type: 'string', role: 'style'});
         dataB.addRows(batchB);
-        var compareData = google.visualization.data.join(dataA, dataB, 'full', [[0, 0]], [1,2], [1,2]);
+        var compareData = google.visualization.data.join(dataA, dataB, 'full', [[0, 0]], [1,2,3], [1,2,3]);
         var options = {title: 'Comparing Batches', width:'100%', height:300};
         var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
         chart.draw(compareData, options);

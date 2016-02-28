@@ -56,8 +56,15 @@ def google_chart_3(batch_temps):
 		data.append([b.seq_no,b.tempc])
 	return data
 
-def google_chart(batch_temps):
+def google_chart(batch_temps, batch):
 	data = []
+	temp_high = batch.temp_high_c
+	temp_low = batch.temp_low_c
+	style = 'point { size: 1; shape-type: circle; fill-color: #a52714; visible: True }'
 	for b in batch_temps:
-		data.append([b.seq_no,b.tempc,b.timestp.strftime("%Y-%m-%d %H:%M:%S")])
+		if(b.tempc > temp_high or b.tempc < temp_low):
+			style = 'point { size: 1; shape-type: circle; fill-color: #a52714; visible: True }'
+		else:
+			style = 'null'
+		data.append([b.seq_no,b.tempc,b.timestp.strftime("%Y-%m-%d %H:%M:%S"),style])
 	return data

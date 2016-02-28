@@ -8,10 +8,10 @@
                     <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Create a new Batch</h3>
                 </div>
                 <div class="panel-body">
-                    <form action="/temps/new_batch/" method="post">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <input type="submit" value="Submit" />
+                    <form class="form-horizontal" action="/temps/new_batch/" method="post">
+                       <!--  {% csrf_token %}
+                        {{ form.as_p }} -->
+                        {% include 'temps/form.html' %}
                     </form>
                 </div>
             </div>
