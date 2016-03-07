@@ -16,7 +16,7 @@ def index(request):
     ct = get_current_temp()
     current_batch = ct.current_batch_id
     batch_temps = service.get_batch_temps(batch_id = current_batch)
-    djangodict = charts.google_chart(batch_temps)
+    djangodict = charts.google_chart(batch_temps, current_batch)
     context = {'ct' : get_current_temp(), 'djangodict' : djangodict}
     return render(request, 'temps/index.html', context)
 
@@ -25,8 +25,10 @@ def new_batch(request):
     if request.method == "POST":
         form = NewBatchForm(request.POST)
         if form.is_valid():
+            user = request.user
             model_instance = form.save(commit=False)
             # model_instance.timestamp = timezone.now()
+            model_instance.user_id = user
             model_instance.save()
             return redirect('view_batch', pk=model_instance.id)
     else:
