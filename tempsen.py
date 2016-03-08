@@ -1,4 +1,4 @@
-# Michael McGuirk - DT228/4 - FYP
+# Michael McGuirk - D13123389 - DT228/4 - FYP
 import os
 import glob
 import time
@@ -6,12 +6,17 @@ import datetime
 import RPi.GPIO as G
 import MySQLdb
 import logging
+
+# Enable 1-Wire GPIO and Temperature Support
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
 
+# Set location of the file where Raw data from the temperature sensor is stored.
 base_dir = '/sys/bus/w1/devices/'
 device_folder = glob.glob(base_dir + '28*')[0]
 device_file = device_folder + '/w1_slave'
+
+# Setup the GPIO Connection for Relay 1
 G.setmode(G.BCM)
 G.setup(2,G.OUT)
 
@@ -24,6 +29,7 @@ temp_max = 20.00
 temp_min = 15.00
 
 # Read raw temperature data from the sensor
+# Open the w1_slave file and read the data.
 def read_temp_raw():
 	f = open(device_file, 'r')
 	lines = f.readlines()
