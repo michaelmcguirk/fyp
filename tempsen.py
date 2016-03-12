@@ -68,9 +68,11 @@ def read_user_temp():
 
 def check_overage(temp, batch_upper_limit):
 	target_temp = desired_mean_temp - (batch_upper_limit / temp)
+	print "New target temp: " + str(target_temp)
 
 def check_underage(temp, batch_lower_limit):
 	target_temp = desired_mean_temp + (temp / batch_lower_limit)
+	print "New target temp: " + str(target_temp)
 
 
 
@@ -109,6 +111,7 @@ while True:
 	if temp_c > target_temp:
 		G.output(2,G.LOW)
 		if temp_c > temp_high:
+			print "Check Overage"
 			check_overage(temp_c, temp_high)
 
 		print "Relay is off"
@@ -116,8 +119,9 @@ while True:
 	elif temp_c < target_temp:
 		G.output(2,G.HIGH)
 		if temp_c < temp_low:
+			print "Check Underage"
 			check_underage(temp_c, temp_low)
-			
+
 		print "Relay is now on"
 	
 	# Wait 60 seconds before taking the next reading.
