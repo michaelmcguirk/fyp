@@ -75,10 +75,10 @@ while True:
 	try:
 		db.ping(True)
 		user_temps = read_user_temp()
-		temp_low = user_temps[0]
-		temp_high = user_temps[1]
+		temp_low = float(user_temps[0])
+		temp_high = float(user_temps[1])
 		batch_id = user_temps[2]
-		print " -- " + temp_low + " -- " + temp_high
+		#print " -- " + temp_low + " -- " + temp_high
 
 		desired_mean_temp = (temp_low + temp_high) / 2
 		if target_temp == 0:
