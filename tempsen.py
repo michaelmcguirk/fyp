@@ -114,7 +114,7 @@ while True:
 			print "Check Overage"
 			check_overage(temp_c, temp_high)
 
-		print "Relay is off"
+		print "Relay: Off"
 
 	elif temp_c < target_temp:
 		G.output(2,G.HIGH)
@@ -122,7 +122,7 @@ while True:
 			print "Check Underage"
 			check_underage(temp_c, temp_low)
 
-		print "Relay is now on"
+		print "Relay: On"
 	
 	# Wait 60 seconds before taking the next reading.
 	time.sleep(60)
