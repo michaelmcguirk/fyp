@@ -68,12 +68,14 @@ def read_user_temp():
 	return user_temp_low, user_temp_high, current_batch_id
 
 def check_overage(current_temp, batch_upper_limit):
+	global peak_temp
 	if peak_temp < current_temp:
 		peak_temp = current_temp 
 		target_temp = desired_mean_temp - (batch_upper_limit / current_temp)
 		print "New target temp: " + str(target_temp)
 
 def check_underage(current_temp, batch_lower_limit):
+	global peak_temp
 	if peak_temp > current_temp:
 		peak_temp = current_temp
 		target_temp = desired_mean_temp + (current_temp / batch_lower_limit)
