@@ -26,12 +26,13 @@ db=MySQLdb.connect("protodb.ctyoee9uibzm.us-west-2.rds.amazonaws.com","root","pi
 print "SQL DB Connect success"
 cursor = db.cursor()
 cursor.execute("SELECT VERSION()")
-temp_max = 20.00
-temp_min = 15.00
+#temp_max = 20.00
+#temp_min = 15.00
 
 max_temp = 0
 min_temp = 0
 target_temp = 0
+peak_temp = 0
 
 # Read raw temperature data from the sensor
 # Open the w1_slave file and read the data.
@@ -58,21 +59,25 @@ def read_temp():
 def read_user_temp():
 	cursor.execute("SELECT temp_low_c, temp_high_c, current_batch_id_id FROM current_temp")
 	temps = cursor.fetchone()
-	temp_low = "{0:.2f}".format(temps[0])
+	user_temp_low = "{0:.2f}".format(temps[0])
 	#temp_low = float(temps[0])
-	temp_high = "{0:.2f}".format(temps[1])
+	user_temp_high = "{0:.2f}".format(temps[1])
 	#temp_high = float(temps[1])
 	#batch_id = int(temps[2])
-	batch_id = temps[2]
-	return temp_low, temp_high, batch_id
+	current_batch_id = temps[2]
+	return user_temp_low, user_temp_high, current_batch_id
 
-def check_overage(temp, batch_upper_limit):
-	target_temp = desired_mean_temp - (batch_upper_limit / temp)
-	print "New target temp: " + str(target_temp)
+def check_overage(current_temp, batch_upper_limit):
+	if peak_temp < current_temp:
+		peak_temp = current_temp 
+		target_temp = desired_mean_temp - (batch_upper_limit / current_temp)
+		print "New target temp: " + str(target_temp)
 
-def check_underage(temp, batch_lower_limit):
-	target_temp = desired_mean_temp + (temp / batch_lower_limit)
-	print "New target temp: " + str(target_temp)
+def check_underage(current_temp, batch_lower_limit):
+	if peak_temp > current_temp:
+		peak_temp = current_temp
+		target_temp = desired_mean_temp + (current_temp / batch_lower_limit)
+		print "New target temp: " + str(target_temp)
 
 
 
@@ -84,11 +89,11 @@ while True:
 	try:
 		db.ping(True)
 		user_temps = read_user_temp()
-		temp_low = float(user_temps[0])
-		temp_high = float(user_temps[1])
-		batch_id = user_temps[2]
+		user_temp_low = float(user_temps[0])
+		user_temp_high = float(user_temps[1])
+		current_batch_id = user_temps[2]
 
-		desired_mean_temp = (temp_low + temp_high) / 2
+		desired_mean_temp = (user_temp_low + user_temp_high) / 2
 		if target_temp == 0:
 			target_temp = desired_mean_temp
 
@@ -96,7 +101,7 @@ while True:
 		insert_temps = """INSERT INTO temps(tempc,tempf,timestp, batch_id_id)VALUES(%s, %s, %s, %s)"""
 		update_current_temp = """UPDATE current_temp SET tempc=%s,tempf=%s,timestp=%s where temp_id=1"""
 		
-		cursor.execute(insert_temps, (read_temp()[0],read_temp()[1],currentTime,batch_id))
+		cursor.execute(insert_temps, (read_temp()[0],read_temp()[1],currentTime,current_batch_id))
 
 		cursor.execute(update_current_temp, (read_temp()[0],read_temp()[1],currentTime))
 		db.commit()
@@ -105,22 +110,22 @@ while True:
 		print "MySQL Error: %s" % str(e)
 
 	# Adjust relay within temperature range
-	temp_c = read_temp()[0]
+	current_temp_c = read_temp()[0]
 	print "Target temperature: " + str(target_temp)
 
-	if temp_c > target_temp:
+	if current_temp_c > target_temp:
 		G.output(2,G.LOW)
-		if temp_c > temp_high:
+		if current_temp_c > user_temp_high:
 			print "Check Overage"
-			check_overage(temp_c, temp_high)
+			check_overage(current_temp_c, user_temp_high)
 
 		print "Relay: Off"
 
-	elif temp_c < target_temp:
+	elif current_temp_c < target_temp:
 		G.output(2,G.HIGH)
-		if temp_c < temp_low:
+		if current_temp_c < user_temp_low:
 			print "Check Underage"
-			check_underage(temp_c, temp_low)
+			check_underage(current_temp_c, user_temp_low)
 
 		print "Relay: On"
 	
