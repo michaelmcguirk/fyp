@@ -17,17 +17,16 @@ base_dir = '/sys/bus/w1/devices/'
 device_folder = glob.glob(base_dir + '28*')[0]
 device_file = device_folder + '/w1_slave'
 
-# Setup the GPIO Connection for Relay 1
+# Setup the GPIO Connection for Relay 1 & 2
 G.setmode(G.BCM)
 G.setup(2,G.OUT)
+G.setup(3,G.OUT)
 
 # DB Connection
 db=MySQLdb.connect("protodb.ctyoee9uibzm.us-west-2.rds.amazonaws.com","root","pibrewing","prototemps")
 print "SQL DB Connect success"
 cursor = db.cursor()
 cursor.execute("SELECT VERSION()")
-#temp_max = 20.00
-#temp_min = 15.00
 
 max_temp = 0
 min_temp = 0
@@ -60,10 +59,7 @@ def read_user_temp():
 	cursor.execute("SELECT temp_low_c, temp_high_c, current_batch_id_id FROM current_temp")
 	temps = cursor.fetchone()
 	user_temp_low = "{0:.2f}".format(temps[0])
-	#temp_low = float(temps[0])
 	user_temp_high = "{0:.2f}".format(temps[1])
-	#temp_high = float(temps[1])
-	#batch_id = int(temps[2])
 	current_batch_id = temps[2]
 	return user_temp_low, user_temp_high, current_batch_id
 
