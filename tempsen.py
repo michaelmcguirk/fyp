@@ -78,6 +78,7 @@ while True:
 		temp_low = user_temps[0]
 		temp_high = user_temps[1]
 		batch_id = user_temps[2]
+		print " -- " + temp_low + " -- " + temp_high
 
 		desired_mean_temp = (temp_low + temp_high) / 2
 		if target_temp == 0:
