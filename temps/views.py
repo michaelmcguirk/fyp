@@ -139,7 +139,6 @@ def user_login(request):
             else:
                 return HttpResponse("Account is no longer Active. Likely Disabled... - Contact Admin")
         else:
-            print "Invalid login details: {0}, {1}".format(username, password)
             return HttpResponse("Invalid login details supplied.")
     else:
         return render(request, 'temps/login.html', {})
