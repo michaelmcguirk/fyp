@@ -1,24 +1,29 @@
 <!DOCTYPE html>
+
 <html>
     <head>
-        <title>Register Pi Brewing</title>
+        {% include 'temps/external_links.html' %}
+        <title>Pi Brewing</title>
     </head>
 
     <body>
-        <h1>Register</h1>
-
-        {% if registered %}
-        Rango says: <strong>thank you for registering!</strong>
-        <a href="/temps/">Return to the homepage.</a><br />
-        {% else %}
-        <strong>Register</strong><br />
-
-        <form id="user_form" method="post" action="/temps/register/" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ user_form.as_p }}
-            {{ user_settings_form.as_p }}
-            <input type="submit" name="submit" value="Register" />
-        </form>
-        {% endif %}
+        <div class="wrapper">
+            <div class="col-md-4"></div>
+            <div class="col-md-4" id="login-box">
+            {% if registered %}
+                <p> Registration Complete </p>
+                <a href="/temps/">Return to the homepage.</a><br />
+            {% else %}    
+                <h1>Register</h1>
+                <form id="user_form" method="post" action="/temps/register/" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ user_form.as_p }}
+                    {{ user_settings_form.as_p }}
+                    <input type="submit" name="submit" value="Register" />
+                </form>
+            {% endif %}
+            </div>
+            <div class="col-md-4"><div>
+        </div>
     </body>
 </html>

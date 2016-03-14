@@ -15,9 +15,14 @@ def get_current_temp():
 def index(request):
     ct = get_current_temp()
     current_batch = ct.current_batch_id
-    batch_temps = service.get_batch_temps(batch_id = current_batch)
-    djangodict = charts.google_chart(batch_temps, current_batch)
-    context = {'ct' : get_current_temp(), 'djangodict' : djangodict}
+    batch = service.get_batch(current_batch.id)
+    batch_user_id = batch.user_id
+    if batch_user_id == request.user.id:
+        batch_temps = service.get_batch_temps(batch_id = current_batch)
+        djangodict = charts.google_chart(batch_temps, current_batch)
+        context = {'ct' : get_current_temp(), 'djangodict' : djangodict}
+    else:
+        context = {'ct' : get_current_temp()}
     return render(request, 'temps/index.html', context)
 
 @login_required
@@ -66,8 +71,9 @@ def view_user_batches(request,pk):
         return HttpResponseRedirect('/temps/')
 
 @login_required
-def compare(request, pk):
-    batches = Batch.objects.filter(user_id=pk)
+def compare(request):
+    user_id = request.user.id
+    batches = Batch.objects.filter(user_id=user_id)
     # batch = batches[0].id
     # batch_a_temps = service.get_batch_temps(batch_id = 2)
     # batch_b_temps = service.get_batch_temps(batch_id = 3)
