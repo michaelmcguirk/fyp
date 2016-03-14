@@ -59,9 +59,11 @@ def view_batch(request, pk):
 
 @login_required
 def view_user_batches(request,pk):
-    batches=Batch.objects.filter(user_id=pk)
-
-    return render(request, 'temps/view_user_batches.html', {'batches' : batches, 'ct' : get_current_temp()})
+    if int(request.user.id) == int(pk):
+        batches=Batch.objects.filter(user_id=pk)
+        return render(request, 'temps/view_user_batches.html', {'batches' : batches, 'ct' : get_current_temp()})
+    else:
+        return HttpResponseRedirect('/temps/')
 
 @login_required
 def compare(request, pk):

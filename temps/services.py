@@ -26,8 +26,11 @@ def create_batch():
 # Set which batch will be associated with all subsequent temperatures being recorded.
 def start_batch(batch_id):
 	current_temp = get_object_or_404(CurrentTemp, temp_id=1)
-	current_temp.current_batch_id = Batch.objects.get(id=batch_id)
-	current_temp.save(update_fields=['current_batch_id'])
+	batch = Batch.objects.get(id=batch_id)
+	current_temp.current_batch_id = batch
+	current_temp.temp_high_c = batch.temp_high_c
+	current_temp.temp_low_c = batch.temp_low_c
+	current_temp.save(update_fields=['current_batch_id', 'temp_high_c', 'temp_low_c'])
 
 def stop_batch():
 	current_temp = get_object_or_404(CurrentTemp, temp_id=1)
