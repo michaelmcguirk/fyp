@@ -15,8 +15,9 @@ def get_current_temp():
 def index(request):
     ct = get_current_temp()
     current_batch = ct.current_batch_id
-    batch = service.get_batch(current_batch.id)
-    batch_user_id = batch.user_id
+    batch = service.get_batch(batch_id = current_batch.id)
+    batch_user_id = batch.user_id_id
+    print "Batch User ID: " + str(batch_user_id) + "User: " + str(request.user.id)
     if batch_user_id == request.user.id:
         batch_temps = service.get_batch_temps(batch_id = current_batch)
         djangodict = charts.google_chart(batch_temps, current_batch)
@@ -127,6 +128,9 @@ def register(request):
             print "Saved user" + str(settings.def_temp_low)
 
             registered = True
+            login_user = authenticate(username=user_form.cleaned_data['username'], password=user_form.cleaned_data['password'])
+            login(request, login_user)
+            return HttpResponseRedirect('/temps/')
         else:
             print user_form.errors, user_settings_form.errors
     else:

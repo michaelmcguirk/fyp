@@ -3,24 +3,49 @@
 <html>
     <head>
         {% include 'temps/external_links.html' %}
+        {% load staticfiles %}
         <title>Pi Brewing</title>
     </head>
 
     <body>
         <div class="wrapper">
             <div class="col-md-4"></div>
-            <div class="col-md-4" id="login-box">
+            <div class="col-md-4" id="login-box" style="padding:10;">
             {% if registered %}
                 <p> Registration Complete </p>
                 <a href="/temps/">Return to the homepage.</a><br />
             {% else %}    
                 <h1>Register</h1>
-                <form id="user_form" method="post" action="/temps/register/" enctype="multipart/form-data">
+                <form class="form-horizontal"  role ="form" id="user_form" method="post" action="/temps/register/" enctype="multipart/form-data">
                     {% csrf_token %}
-                    {{ user_form.as_p }}
-                    {{ user_settings_form.as_p }}
-                    <input type="submit" name="submit" value="Register" />
-                </form>
+                    <!-- {{ user_form.as_p }}
+                    {{ user_settings_form.as_p }} -->
+                    <div class="form-group">
+                        <label for="{{ user_form.username.id_for_label }}">Username:</label>
+                        {{ user_form.username }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ user_form.email.id_for_label }}">Email:</label>
+                        {{ user_form.email }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ user_form.password.id_for_label }}">Password:</label>
+                        {{ user_form.password }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ user_settings_form.def_temp_low.id_for_label }}">Default Low Temperature(C):</label>
+                        {{ user_settings_form.def_temp_low }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ user_settings_form.def_temp_high.id_for_label }}">Default High Temperature(C):</label>
+                        {{ user_settings_form.def_temp_high }}
+                    </div>      
+                    <div class="form-group">
+                        <label for="{{ user_settings_form.def_temp_format.id_for_label }}">Default Temperature Format:</label>
+                        {{ user_settings_form.def_temp_format }}
+                    </div>                                                                                               
+                   <button type="submit" class="btn btn-default">Submit</button>
+                </form> 
             {% endif %}
             </div>
             <div class="col-md-4"><div>
