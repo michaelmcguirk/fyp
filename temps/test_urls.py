@@ -28,9 +28,9 @@ class SimpleTest(unittest.TestCase):
         self.assertEqual(resolver.view_name, 'view_batch')
 
     def test_compare(self):
-        url = reverse('compare', args=[1])
-        self.assertEqual(url, '/temps/compare/1/')
-        resolver = resolve('/temps/compare/1/')
+        url = reverse('compare')
+        self.assertEqual(url, '/temps/compare/')
+        resolver = resolve('/temps/compare/')
         self.assertEqual(resolver.view_name, 'compare')
 
     def test_start_batch(self):
