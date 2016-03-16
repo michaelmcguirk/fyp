@@ -20,8 +20,8 @@ def index(request):
     print "Batch User ID: " + str(batch_user_id) + "User: " + str(request.user.id)
     if batch_user_id == request.user.id:
         batch_temps = service.get_batch_temps(batch_id = current_batch)
-        djangodict = charts.google_chart(batch_temps, current_batch)
-        context = {'ct' : get_current_temp(), 'djangodict' : djangodict}
+        chart_batch = charts.google_chart(batch_temps, current_batch)
+        context = {'ct' : get_current_temp(), 'chart_batch' : chart_batch}
     else:
         context = {'ct' : get_current_temp()}
     return render(request, 'temps/index.html', context)

@@ -3,11 +3,14 @@
 from django.db import models
 from django import forms
 from django.forms import ModelForm
+from django.forms.extras.widgets import SelectDateWidget
 from .models import Batch, UserBatchSettings
 from django.contrib.auth.models import User
 
 class NewBatchForm(ModelForm):
-	class Meta:
+    start_date = forms.DateField(widget = SelectDateWidget)
+    end_date = forms.DateField(widget = SelectDateWidget)
+    class Meta:
 		model = Batch
 		fields = ['start_date', 'end_date', 'batch_name', 'beer_type', 'volume_l', 'initial_gravity', 'initial_temp', 'temp_high_c', 'temp_low_c']
 

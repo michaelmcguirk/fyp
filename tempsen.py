@@ -18,9 +18,11 @@ device_folder = glob.glob(base_dir + '28*')[0]
 device_file = device_folder + '/w1_slave'
 
 # Setup the GPIO Connection for Relay 1 & 2
+heat = 2
+cool = 3
 G.setmode(G.BCM)
-G.setup(2,G.OUT)
-G.setup(3,G.OUT)
+G.setup(heat,G.OUT)
+G.setup(cool,G.OUT)
 
 # DB Connection
 db=MySQLdb.connect("protodb.ctyoee9uibzm.us-west-2.rds.amazonaws.com","root","pibrewing","prototemps")
@@ -112,7 +114,8 @@ while True:
 	print "Target temperature: " + str(target_temp)
 
 	if current_temp_c > target_temp:
-		G.output(2,G.LOW)
+		G.output(heat,G.LOW)
+		G.output(cool,G.High)
 		if current_temp_c > user_temp_high:
 			print "Check Overage"
 			check_overage(current_temp_c, user_temp_high)
@@ -120,7 +123,8 @@ while True:
 		print "Relay: Off"
 
 	elif current_temp_c < target_temp:
-		G.output(2,G.HIGH)
+		G.output(heat,G.HIGH)
+		G.output(cool,G.LOW)
 		if current_temp_c < user_temp_low:
 			print "Check Underage"
 			check_underage(current_temp_c, user_temp_low)

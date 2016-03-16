@@ -133,4 +133,13 @@
     <script src="http://pibrewingstaticfiles.s3-eu-west-1.amazonaws.com/temps/js/jquery.js"></script>
     <script src="http://pibrewingstaticfiles.s3-eu-west-1.amazonaws.com/temps/js/temps.js"></script>
     <script src="http://pibrewingstaticfiles.s3-eu-west-1.amazonaws.com/temps/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(document)
+        .ajaxStart(function(){
+            $("#loadingSpinner").show();
+        })
+        .ajaxStop(function(){
+            $("#loadingSpinner").hide();
+        });
+    </script>
 </html>

@@ -2,16 +2,17 @@
 {% extends 'temps/base.html' %}
     {% block content %}
     {% load staticfiles %}
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>Current Running Batch</h3>
             </div>
             <div class="panel-body">
-                {% if djangodict %}
-                    <script type="text/javascript">var djangodata = {{djangodict|safe}};</script>
+                {% if chart_batch %}
+                    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                    <script type="text/javascript">var djangodata = {{chart_batch|safe}};</script>
                     <div id="single_batch_chart">
+                        <img src="https://s3-eu-west-1.amazonaws.com/pibrewingstaticfiles/temps/img/ajax-loader_lg.gif" id="loadingSpinner">
                         <div id="chart_div"></div>
                     </div>
                 {% else %}
