@@ -28,11 +28,11 @@ class SimpleTest(test.TestCase):
 
     def test_temps(self):
         self.temps = Temps.objects.get(timestp = "2016-03-16 00:00:00")
-        #self.assertEqual(self.temps.timestp, "2016-03-16 00:00:00")
+        self.assertEqual(self.temps.timestp.strftime("%Y-%m-%d %H:%M:%S"), "2016-03-16 00:00:00")
 
     def test_ct(self):
         self.ct = CurrentTemp.objects.get(timestp = "2016-03-16 00:00:00")
-        #self.assertEqual(self.ct.timestp, "2016-03-16 00:00:00")
+        self.assertEqual(self.ct.timestp.strftime("%Y-%m-%d %H:%M:%S"), "2016-03-16 00:00:00")
 
     def test_settings(self):
         self.settings = UserBatchSettings.objects.get(user_id = self.user)

@@ -13,6 +13,19 @@ def get_batch_temps(**filters):
 		seq+=1
 	return  batches
 
+def get_chart_data(batch_temps, batch):
+	data = []
+	temp_high = batch.temp_high_c
+	temp_low = batch.temp_low_c
+	style = 'point { size: 1; shape-type: circle; fill-color: #a52714; visible: True }'
+	for b in batch_temps:
+		if(b.tempc > temp_high or b.tempc < temp_low):
+			style = 'point { size: 1; shape-type: circle; fill-color: #a52714; visible: True }'
+		else:
+			style = 'null'
+		data.append([b.seq_no,b.tempc,b.timestp.strftime("%Y-%m-%d %H:%M:%S"),style])
+	return data
+
 
 def get_batch(batch_id=1):
 	return Batch.objects.get(pk=batch_id)
