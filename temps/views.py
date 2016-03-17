@@ -20,7 +20,7 @@ def index(request):
     print "Batch User ID: " + str(batch_user_id) + "User: " + str(request.user.id)
     if batch_user_id == request.user.id:
         batch_temps = service.get_batch_temps(batch_id = current_batch)
-        chart_batch = charts.google_chart(batch_temps, current_batch)
+        chart_batch = service.get_chart_data(batch_temps, current_batch)
         context = {'ct' : get_current_temp(), 'chart_batch' : chart_batch}
     else:
         context = {'ct' : get_current_temp()}
@@ -59,9 +59,9 @@ def edit_batch(request, pk):
 def view_batch(request, pk):
     batch = get_object_or_404(Batch, id=pk)
     batch_temps = service.get_batch_temps(batch_id = pk)
-    djangodict = charts.google_chart(batch_temps, batch)
+    batch_data = service.get_chart_data(batch_temps, batch)
 
-    return render(request, 'temps/view_batch.html', {'batch' : batch, 'ct' : get_current_temp(), 'djangodict' : djangodict})
+    return render(request, 'temps/view_batch.html', {'batch' : batch, 'ct' : get_current_temp(), 'batch_data' : batch_data})
 
 @login_required
 def view_user_batches(request,pk):
@@ -75,11 +75,6 @@ def view_user_batches(request,pk):
 def compare(request):
     user_id = request.user.id
     batches = Batch.objects.filter(user_id=user_id)
-    # batch = batches[0].id
-    # batch_a_temps = service.get_batch_temps(batch_id = 2)
-    # batch_b_temps = service.get_batch_temps(batch_id = 3)
-    # batch_a = charts.google_chart(batch_a_temps)
-    # batch_b = charts.google_chart(batch_b_temps)
 
     return render(request, 'temps/compare.html', {'ct' : get_current_temp(), 'batches' : batches})
 
@@ -103,8 +98,8 @@ def stop_batch(request):
 
 @login_required
 def serve_compare_chart(request,b1,b2):
-    batch_a = charts.google_chart(service.get_batch_temps(batch_id = b1), get_object_or_404(Batch, id=b1))
-    batch_b = charts.google_chart(service.get_batch_temps(batch_id = b2), get_object_or_404(Batch, id=b2))
+    batch_a = service.get_chart_data(service.get_batch_temps(batch_id = b1), get_object_or_404(Batch, id=b1))
+    batch_b = service.get_chart_data(service.get_batch_temps(batch_id = b2), get_object_or_404(Batch, id=b2))
     batch_data = [service.get_batch(b1),service.get_batch(b2)]
     return render(request, 'temps/compare_chart.html', {'batch_a':batch_a, 'batch_b':batch_b, 'batch_data':batch_data})
 
