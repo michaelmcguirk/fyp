@@ -12,7 +12,9 @@ class NewBatchForm(ModelForm):
     end_date = forms.DateField(widget = SelectDateWidget)
     class Meta:
 		model = Batch
-		fields = ['start_date', 'end_date', 'batch_name', 'beer_type', 'volume_l', 'initial_gravity', 'initial_temp', 'temp_high_c', 'temp_low_c']
+		fields = ['start_date', 'end_date', 'batch_name', 'beer_type', 
+        'volume_l', 'initial_gravity', 'initial_temp', 'temp_high_c', 
+        'temp_low_c', 'taste_rating', 'body_rating']
 
 
 

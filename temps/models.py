@@ -9,6 +9,7 @@
 # into your database.
 from __future__ import unicode_literals
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 from django.db import models
 
@@ -23,8 +24,10 @@ class Batch(models.Model):
     initial_gravity = models.FloatField(blank=True, null=True)
     final_gravity = models.FloatField(blank=True, null=True)
     initial_temp = models.FloatField(blank=True, null=True)
-    body_rating = models.IntegerField(blank=True, null=True)
-    taste_rating = models.IntegerField(blank=True, null=True)
+    body_rating = models.IntegerField(blank=True, null=True,
+        validators=[MaxValueValidator(5),MinValueValidator(1)])
+    taste_rating = models.IntegerField(blank=True, null=True,
+        validators=[MaxValueValidator(5),MinValueValidator(1)])
     notes = models.CharField(max_length=100)
     temp_high_c = models.FloatField(blank=True, null=True)
     temp_low_c = models.FloatField(blank=True, null=True)

@@ -60,8 +60,12 @@ def view_batch(request, pk):
     batch = get_object_or_404(Batch, id=pk)
     batch_temps = service.get_batch_temps(batch_id = pk)
     batch_data = service.get_chart_data(batch_temps, batch)
+    taste_rating_string = service.generate_stars(batch.taste_rating)
+    body_rating_string = service.generate_stars(batch.body_rating)
+    ratings = [taste_rating_string,body_rating_string]
 
-    return render(request, 'temps/view_batch.html', {'batch' : batch, 'ct' : get_current_temp(), 'batch_data' : batch_data})
+    return render(request, 'temps/view_batch.html', {'batch' : batch, 'ct' : get_current_temp(),
+     'batch_data' : batch_data, 'ratings' : ratings})
 
 @login_required
 def view_user_batches(request,pk):

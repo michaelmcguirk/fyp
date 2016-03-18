@@ -20,6 +20,7 @@
                             <button class="btn btn-success" id="start_stop" status="stopped" batch-id="{{ batch.id }}" type="button">
                                 Start Batch
                             </button>
+                            <a href="/temps/edit_batch/{{batch.id}}" type="button" class="btn btn-info pull-right" role="button">Edit</a>
                         {% endif %}
                     </p>
                 </div>
@@ -38,8 +39,8 @@
                             <p><b>Min Temp:</b> {{ batch.temp_low_c}}</p>
                         </div>
                          <div class="col-lg-3">
-                            <p><b>Taste Rating:</b> {{ batch.taste_rating}}</p>
-                            <p><b>Body Rating:</b> {{ batch.body_rating }}</p>
+                            <p><b>Taste Rating:</b> {{ ratings.0 | safe}}</p>
+                            <p><b>Body Rating:</b> {{ ratings.1 | safe}}</p>
                         </div>
                     </div>
                 </div>

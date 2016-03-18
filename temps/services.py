@@ -26,6 +26,17 @@ def get_chart_data(batch_temps, batch):
 		data.append([b.seq_no,b.tempc,b.timestp.strftime("%Y-%m-%d %H:%M:%S"),style])
 	return data
 
+def generate_stars(rating):
+	star = '<i class="fa fa-star"></i>'
+	hollow_star = '<i class="fa fa-star-o"></i>'
+	rating_string = ''
+	for i in range(0,5):
+		if i < rating:
+			rating_string = rating_string + star
+		else:
+			rating_string = rating_string + hollow_star
+	return rating_string
+
 
 def get_batch(batch_id=1):
 	return Batch.objects.get(pk=batch_id)
