@@ -36,18 +36,17 @@ target_temp = 0
 peak_temp = 0
 previous_error = 0
 
+# PID to manage temperature overshoots.
 def pid(currrent_temp, set_point):
 	dt = 60
-	#set_point = 18.0
 	Kp = 0.2
 	Kd = 10
 	Ki = 1
-	#integral = 0
-	#measured_value = float(raw_input("Enter current temp: "))
+
 	error = set_point - current_temp
-	#integral = integral + error*dt
 	derivator = (error - previous_error)/dt
 	output = Kp*error  + Kd*derivator
+
 	print "PID Output: " + str(output)
 	previous_error = error
 	return output
@@ -82,7 +81,9 @@ def read_user_temp():
 	current_batch_id = temps[2]
 	return user_temp_low, user_temp_high, current_batch_id
 
-def check_overage(current_temp, batch_upper_limit, set_point):
+# Checking for overshoot and undershoot, 
+# passing overshoot to PID controller to define target temperature
+def check_overshoot(current_temp, batch_upper_limit, set_point):
 	global peak_temp
 	if peak_temp < current_temp:
 		peak_temp = current_temp 
@@ -90,7 +91,7 @@ def check_overage(current_temp, batch_upper_limit, set_point):
 		#target_temp = desired_mean_temp - (batch_upper_limit / current_temp)
 		print "New target temp: " + str(target_temp)
 
-def check_underage(current_temp, batch_lower_limit, set_point):
+def check_undershoot(current_temp, batch_lower_limit, set_point):
 	global peak_temp
 	if peak_temp > current_temp:
 		peak_temp = current_temp
@@ -137,7 +138,7 @@ while True:
 		G.output(cool,G.High)
 		if current_temp_c > user_temp_high:
 			print "Check Overage"
-			check_overage(current_temp_c, user_temp_high, desired_mean_temp)
+			check_overshoot(current_temp_c, user_temp_high, desired_mean_temp)
 
 		print "Relay: Off"
 
@@ -146,40 +147,9 @@ while True:
 		G.output(cool,G.LOW)
 		if current_temp_c < user_temp_low:
 			print "Check Underage"
-			check_underage(current_temp_c, user_temp_low, desired_mean_temp)
+			check_undershoot(current_temp_c, user_temp_low, desired_mean_temp)
 
 		print "Relay: On"
 	
 	# Wait 60 seconds before taking the next reading.
 	time.sleep(60)
-
-
-
-# Kp=.2
-# Ki=19*5
-# Kd=1.0
-# Derivator=0
-# Integrator=0
-# Integrator_max=500
-# Integrator_min=-500
-# set_point=18
-# error=0.0
-# current_value = 19
-
-# error = set_point - current_value
-
-# P_value = Kp * error
-# D_value = Kd * ( error - Derivator)
-# Derivator = error
-
-# Integrator = Integrator + error
-
-# if Integrator > Integrator_max:
-# 	Integrator = Integrator_max
-# elif Integrator < Integrator_min:
-# 	Integrator = Integrator_min
-
-# I_value = Integrator * Ki
-
-# PID = P_value + I_value + D_value
-# print "PID: " + str(PID)
