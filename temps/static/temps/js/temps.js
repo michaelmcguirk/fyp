@@ -124,7 +124,34 @@ $(document).ready(function() {
     }  
   }
 
+function loadPieChart(){
+  if($('#pie_chart_div').length)
+    {   
+      console.log("Pie chart function running")
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var pieData = new google.visualization.DataTable();
+        pieData.addColumn('string','Classification');
+        pieData.addColumn('number','Value');
+        pieData.addRows(pie_chart_array);
+
+        var options = {
+          title: 'Brewing Activity Chart', 
+          width:'100%', 
+          height:300,
+          colors: ['#ff4d4d', '#1aa3ff', '#008000']
+        };
+
+        var pieChart = new google.visualization.PieChart(document.getElementById('pie_chart_div'));
+
+        pieChart.draw(pieData, options);
+
+      }
+    }  
+}
+
   loadSingleChart();
+  loadPieChart();
 
   $(window).resize(function(){
     loadSingleChart();

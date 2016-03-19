@@ -26,6 +26,29 @@ def get_chart_data(batch_temps, batch):
 		data.append([b.seq_no,b.tempc,b.timestp.strftime("%Y-%m-%d %H:%M:%S"),style])
 	return data
 
+def pie_chart(batch_temps, batch):
+	#data = []
+	total_over = 0
+	total_under = 0
+	total_within = 0
+	temp_high = batch.temp_high_c
+	temp_low = batch.temp_low_c
+	for b in batch_temps:
+		if(b.tempc > temp_high):
+			total_over += 1
+		if(b.tempc < temp_low):
+			total_under += 1
+		if(b.tempc >= temp_low and b.tempc <= temp_high):
+			total_within += 1
+	data = [['Total Over', total_over],
+		['Total Under', total_under],
+		['Total Within', total_within]]
+	return data
+
+#['Classification','Count'],
+
+
+
 def generate_stars(rating):
 	star = '<i class="fa fa-star"></i>'
 	hollow_star = '<i class="fa fa-star-o"></i>'
