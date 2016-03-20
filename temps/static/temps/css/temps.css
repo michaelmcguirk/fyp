@@ -187,11 +187,17 @@ body {
     border-color: #d9534f;
 }*/
 
-/*.panel-red > .panel-heading {
-    border-color: #d9534f;
+.panel-red > .panel-heading {
+    border-color: #ff4d4d;
     color: #fff;
-    background-color: #d9534f;
-}*/
+    background-color: #ff4d4d;
+}
+
+.panel-blue > .panel-heading {
+    border-color: #1aa3ff;
+    color: #fff;
+    background-color: #1aa3ff;
+}
 
 /*.panel-red > a {
     color: #d9534f;
