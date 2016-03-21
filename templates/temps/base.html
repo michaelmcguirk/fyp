@@ -87,7 +87,24 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <h1 class="page-header">
-                            Dashboard <small>Brew Overview</small>
+                            {% if "view_user_batches" in request.get_full_path %}
+                                Dashboard <small>View your Batches</small>
+                            {% endif %}
+                            {% if "new_batch" in request.get_full_path %}
+                                Dashboard <small>New Batch</small>
+                            {% endif %}
+                            {% if "edit_batch" in request.get_full_path %}
+                                Dashboard <small>Edit Batch</small>
+                            {% endif %}
+                            {% if "compare" in request.get_full_path %}
+                                Dashboard <small>Compare Batches</small>
+                            {% endif %}
+                            {% if "view_batch" in request.get_full_path %}
+                                Dashboard <small>View Batch</small>
+                            {% endif %}
+                            {% if request.get_full_path = "/temps/" %}
+                                Dashboard <small>Brew Overview</small>
+                            {% endif %}
                         </h1>
                     </div>
                     <div class="col-lg-3 col-md-6">

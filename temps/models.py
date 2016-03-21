@@ -32,6 +32,12 @@ class Batch(models.Model):
     temp_high_c = models.FloatField(blank=True, null=True)
     temp_low_c = models.FloatField(blank=True, null=True)
 
+    def clean(self):
+        if self.start_date > self.end_date:
+            raise ValidationError('Start date must be before end date')
+        if self.temp_low_c > self.temp_high_c:
+            raise ValidationError('Lower temperature limit must be less than higher')
+
     class Meta:
         db_table = 'batch'
 
@@ -71,6 +77,10 @@ class UserBatchSettings(models.Model):
     def_temp_low = models.FloatField(blank=True, null=True)
     def_temp_high = models.FloatField(blank=True, null=True)
     def_temp_format = models.CharField(max_length=1,choices=TEMPERATURE_FORMAT,default='C')
+
+    def clean(self):
+        if self.def_temp_low > self.def_temp_high:
+            raise ValidationError('Lower temperature must be less than higher temperature')
 
     class Meta:
         db_table = 'user_batch_settings'

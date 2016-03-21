@@ -1,0 +1,43 @@
+<script type="text/javascript">
+    var djangodata = {{batch_data|safe}};
+    var pie_chart_array = {{pie_chart_data|safe}}
+</script>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-info">
+            <div class="panel panel-heading">
+                <h3 class="panel-title"> Batch Info </h3>
+            </div>
+            <div class="panel-body" id="info-panel">
+                <div class="col-lg-6">
+                    <p><b>Beer Type: </b> {{ batch.beer_type }}</p>
+                    <p><b>Volume: </b> {{ batch.volume_l }}</p>
+                    <p></p>
+                    <p><b>Max Temp:</b> {{ batch.temp_high_c}}</p>
+                    <p><b>Min Temp:</b> {{ batch.temp_low_c}}</p>
+                </div>
+                <div class="col-lg-6">
+                    <p><b>Start Date:</b> {{ batch.start_date|date:"d-m-Y" }}</p>
+                    <p><b>End Date:</b> {{ batch.end_date|date:"d-m-Y" }}</p>
+                    <p></p>
+                    <p><b>Taste Rating:</b> {{ ratings.0 | safe}}</p>
+                    <p><b>Body Rating:</b> {{ ratings.1 | safe}}</p>
+                </div>
+            </div>
+        </div>    
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-info" id="pie-chart-panel">
+            <div id="pie_chart_div">
+                <p>Loading Chart...<p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="panel panel-info">
+        <div id="single_batch_chart">
+            <div id="chart_div"></div>
+        </div>
+    </div>
+</div>

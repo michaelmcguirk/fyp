@@ -17,11 +17,16 @@ def index(request):
     current_batch = ct.current_batch_id
     batch = service.get_batch(batch_id = current_batch.id)
     batch_user_id = batch.user_id_id
-    print "Batch User ID: " + str(batch_user_id) + "User: " + str(request.user.id)
+    print "Batch User ID: " + str(batch_user_id) + " User: " + str(request.user.id)
     if batch_user_id == request.user.id:
         batch_temps = service.get_batch_temps(batch_id = current_batch)
-        chart_batch = service.get_chart_data(batch_temps, current_batch)
-        context = {'ct' : get_current_temp(), 'chart_batch' : chart_batch}
+        batch_data = service.get_chart_data(batch_temps, current_batch)
+        pie_chart_data = service.pie_chart(batch_temps, batch)
+        taste_rating_string = service.generate_stars(batch.taste_rating)
+        body_rating_string = service.generate_stars(batch.body_rating)
+        ratings = [taste_rating_string,body_rating_string]
+        context = {'request':request, 'ct' : get_current_temp(), 'batch_data' : batch_data, 'batch' : batch, 
+        'pie_chart_data' : pie_chart_data, 'ratings' : ratings}
     else:
         context = {'ct' : get_current_temp()}
     return render(request, 'temps/index.html', context)
@@ -40,7 +45,7 @@ def new_batch(request):
     else:
         form = NewBatchForm()
 
-    return render(request, "temps/new_batch.html", {'form': form, 'ct' : get_current_temp()})
+    return render(request, "temps/new_batch.html", {'request':request, 'form': form, 'ct' : get_current_temp()})
 
 @login_required
 def edit_batch(request, pk):
@@ -53,7 +58,7 @@ def edit_batch(request, pk):
     else:
         form = NewBatchForm(instance =batch)
 
-    return render(request, "temps/edit_batch.html", {'form': form, 'ct' : get_current_temp()})
+    return render(request, "temps/edit_batch.html", {'request':request, 'form': form, 'ct' : get_current_temp(), 'batch' : batch})
 
 @login_required
 def view_batch(request, pk):
@@ -65,14 +70,14 @@ def view_batch(request, pk):
     body_rating_string = service.generate_stars(batch.body_rating)
     ratings = [taste_rating_string,body_rating_string]
 
-    return render(request, 'temps/view_batch.html', {'batch' : batch, 'ct' : get_current_temp(),
+    return render(request, 'temps/view_batch.html', {'request':request, 'batch' : batch, 'ct' : get_current_temp(),
      'batch_data' : batch_data, 'pie_chart_data' : pie_chart_data, 'ratings' : ratings})
 
 @login_required
 def view_user_batches(request,pk):
     if int(request.user.id) == int(pk):
         batches=Batch.objects.filter(user_id=pk)
-        return render(request, 'temps/view_user_batches.html', {'batches' : batches, 'ct' : get_current_temp()})
+        return render(request, 'temps/view_user_batches.html', {'request':request, 'batches' : batches, 'ct' : get_current_temp()})
     else:
         return HttpResponseRedirect('/temps/')
 
@@ -81,7 +86,7 @@ def compare(request):
     user_id = request.user.id
     batches = Batch.objects.filter(user_id=user_id)
 
-    return render(request, 'temps/compare.html', {'ct' : get_current_temp(), 'batches' : batches})
+    return render(request, 'temps/compare.html', {'request':request, 'ct' : get_current_temp(), 'batches' : batches})
 
 @login_required
 def start_batch(request):
@@ -172,7 +177,7 @@ def edit_user_settings(request):
     else:
         user_form = UserSettingsForm(instance =user_setting)
 
-    return render(request, "temps/edit_user_settings.html", {'user_form': user_form, 'ct' : get_current_temp()})
+    return render(request, "temps/edit_user_settings.html", {'request':request, 'user_form': user_form, 'ct' : get_current_temp()})
 
 
 
