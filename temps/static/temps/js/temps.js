@@ -56,6 +56,7 @@ $(document).ready(function() {
             //$('#compare_batch_chart').load('/temps/serve_compare_chart/1/2');
             $('#compare_batch_chart').html(data);
             loadCompareChart();
+            loadComparePieChart();
         }
      });
   });
@@ -150,12 +151,47 @@ function loadPieChart(){
     }  
 }
 
+function loadComparePieChart(){
+  if($('#compare_pie_charts').length)
+    {   
+      console.log("Compare Pie chart function running")
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var pieDataA = new google.visualization.DataTable();
+        pieDataA.addColumn('string','Classification');
+        pieDataA.addColumn('number','Value');
+        pieDataA.addRows(pie_chart_array_a);
+
+        var pieDataB = new google.visualization.DataTable();
+        pieDataB.addColumn('string','Classification');
+        pieDataB.addColumn('number','Value');
+        pieDataB.addRows(pie_chart_array_b);
+
+        var options = {
+          title: 'Brewing Activity Chart', 
+          width:'100%', 
+          height:300,
+          colors: ['#ff4d4d', '#1aa3ff', '#008000']
+        };
+
+        var pieChartA = new google.visualization.PieChart(document.getElementById('pie_chart_div_a'));
+        var pieChartB = new google.visualization.PieChart(document.getElementById('pie_chart_div_b'));
+
+        pieChartA.draw(pieDataA, options);
+        pieChartB.draw(pieDataB, options);
+
+      }
+    }  
+}
+
   loadSingleChart();
   loadPieChart();
 
   $(window).resize(function(){
     loadSingleChart();
     loadCompareChart();
+    loadPieChart();
+    loadComparePieChart();
   });
 
 });

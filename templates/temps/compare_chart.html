@@ -1,8 +1,104 @@
-<script type="text/javascript">
-    var batchA = {{batch_a | safe}};
-    var batchB = {{batch_b | safe}};
-</script>
+{% if batch_a %}
+    <script type="text/javascript">
+        var batchA = {{batch_a | safe}};
+        var batchB = {{batch_b | safe}};
+        var pie_chart_array_a = {{pie_chart_data.0 | safe}};
+        var pie_chart_array_b = {{pie_chart_data.1 | safe}};
+    </script>
+{% endif %}
 <div class="row">
+    {% if batch_data %}
+    <div class="col-lg-6">
+        <div class="panel panel-info" id="batch-a-panel">
+            <div class="panel panel-heading">
+                <h3 class="panel-title"> {{batch_data.0.batch_name}} Info </h3>
+            </div>
+            <div class="panel-body" id="info-panel">
+                <div class="col-lg-6">
+                    <p><b>Beer Type: </b> {{ batch_data.0.beer_type }}</p>
+                    <p><b>Volume: </b> {{ batch_data.0.volume_l }}</p>
+                    <p></p>
+                    <p><b>Max Temp:</b> {{ batch_data.0.temp_high_c}}</p>
+                    <p><b>Min Temp:</b> {{ batch_data.0.temp_low_c}}</p>
+                </div>
+                <div class="col-lg-6">
+                    <p><b>Start Date:</b> {{ batch_data.0.start_date|date:"d-m-Y" }}</p>
+                    <p><b>End Date:</b> {{ batch_data.0.end_date|date:"d-m-Y" }}</p>
+                    <p></p>
+                    <p><b>Taste Rating:</b> {{ ratings.0 | safe}}</p>
+                    <p><b>Body Rating:</b> {{ ratings.1 | safe}}</p>
+                </div>
+            </div>
+        </div>    
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-info" id="batch-b-panel">
+            <div class="panel panel-heading">
+                <h3 class="panel-title"> {{ batch_data.1.batch_name }} Info </h3>
+            </div>
+            <div class="panel-body" id="info-panel">
+                <div class="col-lg-6">
+                    <p><b>Beer Type: </b> {{ batch_data.1.beer_type }}</p>
+                    <p><b>Volume: </b> {{ batch_data.1.volume_l }}</p>
+                    <p></p>
+                    <p><b>Max Temp:</b> {{ batch_data.1.temp_high_c}}</p>
+                    <p><b>Min Temp:</b> {{ batch_data.1.temp_low_c}}</p>
+                </div>
+                <div class="col-lg-6">
+                    <p><b>Start Date:</b> {{ batch_data.1.start_date|date:"d-m-Y" }}</p>
+                    <p><b>End Date:</b> {{ batch_data.1.end_date|date:"d-m-Y" }}</p>
+                    <p></p>
+                    <p><b>Taste Rating:</b> {{ ratings.0 | safe}}</p>
+                    <p><b>Body Rating:</b> {{ ratings.1 | safe}}</p>
+                </div>
+            </div>
+        </div>    
+    </div>
+    
+</div>
+<div class="row" id="compare_pie_charts">
+    <div class="col-lg-6">
+        <div class="panel panel-info" id="pie-chart-panel">
+            <div id="pie_chart_div_a">
+                <p>Loading Chart...<p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-info" id="pie-chart-panel">
+            <div id="pie_chart_div_b">
+                <p>Loading Chart...<p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+<div class="row" id="chart_div">
+    
+    <p class="text-center">
+        <p>Select batches to load.</p>
+        <img src="https://s3-eu-west-1.amazonaws.com/pibrewingstaticfiles/temps/img/ajax-loader_lg.gif" id="loadingSpinner">
+    </p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="row">
     <div class="col-lg-3">
         <p><b>Beer Type: </b> {{ batch_data.0.beer_type }}</p>
         <p><b>Volume: </b> {{ batch_data.0.volume_l }}</p>
@@ -25,4 +121,4 @@
     <p class="text-center">
         <img src="https://s3-eu-west-1.amazonaws.com/pibrewingstaticfiles/temps/img/ajax-loader_lg.gif" id="loadingSpinner">
     </p>
-</div>
+</div> -->

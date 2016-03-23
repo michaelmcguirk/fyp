@@ -108,10 +108,15 @@ def stop_batch(request):
 
 @login_required
 def serve_compare_chart(request,b1,b2):
-    batch_a = service.get_chart_data(service.get_batch_temps(batch_id = b1), get_object_or_404(Batch, id=b1))
-    batch_b = service.get_chart_data(service.get_batch_temps(batch_id = b2), get_object_or_404(Batch, id=b2))
+    batch_a_temps = service.get_batch_temps(batch_id = b1)
+    batch_b_temps = service.get_batch_temps(batch_id = b2)
+    batch_a = service.get_chart_data(batch_a_temps, get_object_or_404(Batch, id=b1))
+    batch_b = service.get_chart_data(batch_b_temps, get_object_or_404(Batch, id=b2))
     batch_data = [service.get_batch(b1),service.get_batch(b2)]
-    return render(request, 'temps/compare_chart.html', {'batch_a':batch_a, 'batch_b':batch_b, 'batch_data':batch_data})
+    pie_chart_data = [service.pie_chart(batch_a_temps, batch_data[0]), service.pie_chart(batch_b_temps, batch_data[1])]
+    print "Batch info: " + service.get_batch(b1).batch_name
+    return render(request, 'temps/compare_chart.html', {'batch_a':batch_a, 'batch_b':batch_b, 
+        'batch_data':batch_data, 'pie_chart_data' : pie_chart_data})
 
 
 def register(request):
