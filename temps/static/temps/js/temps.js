@@ -3,23 +3,6 @@ $(document).ready(function() {
   google.charts.load('current', {'packages':['corechart']});
   console.log("Google Charts Loaded");
 
-/*	$('#start_batch').click(function(){
-    console.log("Starting batch");
-    var batch_id;
-    batch_id = $(this).attr("batch-id");
-     $.get('/temps/start_batch/', {batch_id: batch_id}, function(data){
-               alert("Batch Started");
-               $('#start_batch').hide();
-           });
-	});
-
-	$('#stop_batch').click(function(){
-     $.get('/temps/stop_batch/', function(data){
-               alert("Batch Stopped");
-               $('#stop_batch').hide();
-           });
-	});*/
-
   $('#start_stop').click(function(){
     var status = $(this).attr("status");
     if(status == "stopped"){
@@ -49,11 +32,8 @@ $(document).ready(function() {
     var b2 = $('#batch_2').val();
      $.ajax({
         url: '/temps/serve_compare_chart/' + b1 + '/' + b2,
-        //data: {csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value},
-        //data: {csrfmiddlewaretoken: {{csrf_token}}},
         success: function(data){
           console.log("Success - Loading");
-            //$('#compare_batch_chart').load('/temps/serve_compare_chart/1/2');
             $('#compare_batch_chart').html(data);
             loadCompareChart();
             loadComparePieChart();
@@ -79,25 +59,6 @@ $(document).ready(function() {
         }
     }
   }
-
-    /*function loadSingleChart(){
-    if($('#single_batch_chart').length)
-    {
-        console.log("single batch chart function running");
-        google.charts.setOnLoadCallback(drawChart);
-        function drawChart() {
-          var data = new google.visualization.DataTable();
-          data.addColumn('number','Sequence');
-          data.addColumn('number','Temp C');
-          data.addColumn({type: 'string', role: 'tooltip'});
-          data.addRows(djangodata);
-          var options = {title: 'Batch', width:'100%', height:300};
-          var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-          chart.draw(data, options);
-        }
-    }
-  }*/
-  
 
   function loadCompareChart(){
     if($('#compare_batch_chart').length)

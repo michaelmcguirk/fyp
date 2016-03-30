@@ -4,7 +4,7 @@ from django.test import Client
 import unittest
 from django.core.urlresolvers import resolve, reverse
 
-class SimpleTest(unittest.TestCase):
+class URLTest(unittest.TestCase):
     
     def setUp(self):
         self.client = Client()

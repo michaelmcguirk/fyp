@@ -1,5 +1,9 @@
 # Michael McGuirk - D13123389 - DT228/4 - FYP
 # 13/03/16
+
+
+
+
 import os
 import glob
 import time
@@ -133,9 +137,10 @@ while True:
 	current_temp_c = read_temp()[0]
 	print "Target temperature: " + str(target_temp)
 
+	# Temperatre too high
 	if current_temp_c > target_temp:
-		G.output(heat,G.LOW)
-		G.output(cool,G.High)
+		G.output(heat,G.HIGH)
+		G.output(cool,G.LOW)
 		if current_temp_c > user_temp_high:
 			print "Check Overage"
 			check_overshoot(current_temp_c, user_temp_high, desired_mean_temp)
@@ -143,8 +148,8 @@ while True:
 		print "Relay: Off"
 
 	elif current_temp_c < target_temp:
-		G.output(heat,G.HIGH)
-		G.output(cool,G.LOW)
+		G.output(heat,G.LOW)
+		G.output(cool,G.HIGH)
 		if current_temp_c < user_temp_low:
 			print "Check Underage"
 			check_undershoot(current_temp_c, user_temp_low, desired_mean_temp)
