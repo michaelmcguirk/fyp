@@ -1,4 +1,5 @@
-# Michael McGuirk - D13123389 - DT228/4 - FYP
+# Michael McGuirk - D13123389
+# DT228/4 - Final Year Project
 # Test class to test the mapping of URLs to Views.
 from django.test import Client
 import unittest

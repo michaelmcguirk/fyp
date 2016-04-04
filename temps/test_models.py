@@ -1,3 +1,6 @@
+# Michael McGuirk - D13123389
+# DT228/4 - Final Year Project
+
 from django.test import Client
 import unittest
 from django import test

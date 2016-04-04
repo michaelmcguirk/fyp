@@ -1,3 +1,5 @@
+# Michael McGuirk - D13123389
+# DT228/4 - Final Year Project
 from django.conf.urls import url
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 

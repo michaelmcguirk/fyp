@@ -1,10 +1,13 @@
+# Michael McGuirk - D13123389
+# DT228/4 - Final Year Project
+# Class to test view functions in temps/views.py
 from django.test import Client
 import unittest
 from django import test
 from .models import UserBatchSettings, Batch, CurrentTemp, Temps
 from django.contrib.auth.models import User
 
-class SimpleTest(test.TestCase):
+class ViewTest(test.TestCase):
     
     def setUp(self):
         self.client = Client()
