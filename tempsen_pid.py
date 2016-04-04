@@ -1,9 +1,5 @@
-# Michael McGuirk - D13123389 - DT228/4 - FYP
-# 13/03/16
-
-
-
-
+# Michael McGuirk - D13123389
+# DT228/4 - Final Year Project
 import os
 import glob
 import time
@@ -57,6 +53,13 @@ def pid(currrent_temp, set_point):
 
 # Read raw temperature data from the sensor
 # Open the w1_slave file and read the data.
+
+##################################################
+# read_temp_raw and read_temp function source:
+# Title: Adafruit's Raspberry Pi Lesson 11. DS18B20 Temperature Sensing
+# Author: Simon Monk
+# URL: https://learn.adafruit.com/adafruits-raspberry-pi-lesson-11-ds18b20-temperature-sensing/hardware
+##################################################
 def read_temp_raw():
 	f = open(device_file, 'r')
 	lines = f.readlines()

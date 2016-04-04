@@ -1,10 +1,12 @@
+# Michael McGuirk - D13123389
+# DT228/4 - Final Year Project
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import CurrentTemp, Batch, Temps, UserBatchSettings
 from .forms import NewBatchForm, UserForm, UserSettingsForm
 import temps.services as service
-import temps.charts as charts
 from django.contrib.auth.decorators import login_required
 
 
@@ -38,7 +40,6 @@ def new_batch(request):
         if form.is_valid():
             user = request.user
             model_instance = form.save(commit=False)
-            # model_instance.timestamp = timezone.now()
             model_instance.user_id = user
             model_instance.save()
             return redirect('view_batch', pk=model_instance.id)

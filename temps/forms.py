@@ -1,4 +1,5 @@
-# forms.py
+# Michael McGuirk - D13123389
+# DT228/4 - Final Year Project
 
 from django.db import models
 from django import forms
@@ -7,9 +8,41 @@ from django.forms.extras.widgets import SelectDateWidget
 from .models import Batch, UserBatchSettings
 from django.contrib.auth.models import User
 
+form_control_attr = {'class': 'form-control'}
+
 class NewBatchForm(ModelForm):
-    start_date = forms.DateField(widget = SelectDateWidget)
-    end_date = forms.DateField(widget = SelectDateWidget)
+    start_date = forms.DateField(
+        widget = SelectDateWidget(attrs=form_control_attr))
+
+    end_date = forms.DateField(
+        widget = SelectDateWidget(attrs=form_control_attr))
+
+    batch_name = forms.CharField(
+        widget = forms.TextInput(attrs=form_control_attr))
+
+    beer_type = forms.CharField(
+        widget = forms.TextInput(attrs=form_control_attr))
+
+    volume_l = forms.IntegerField(
+        widget = forms.NumberInput(attrs=form_control_attr),required=False)
+
+    initial_gravity = forms.FloatField(
+        widget = forms.NumberInput(attrs=form_control_attr),required=False)
+
+    initial_temp = forms.FloatField(
+        widget = forms.NumberInput(attrs=form_control_attr),required=False)
+
+    temp_high_c = forms.FloatField(
+        widget = forms.NumberInput(attrs=form_control_attr),required=False)
+
+    temp_low_c = forms.FloatField(
+        widget = forms.NumberInput(attrs=form_control_attr),required=False)
+
+    taste_rating = forms.IntegerField(
+        widget = forms.NumberInput(attrs=form_control_attr),required=False)
+
+    body_rating = forms.IntegerField(
+        widget = forms.NumberInput(attrs=form_control_attr),required=False)
     class Meta:
 		model = Batch
 		fields = ['start_date', 'end_date', 'batch_name', 'beer_type', 

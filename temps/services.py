@@ -1,4 +1,5 @@
-# Services.py
+# Michael McGuirk - D13123389
+# DT228/4 - Final Year Project
 from django.shortcuts import get_object_or_404
 from temps.models import CurrentTemp
 from temps.models import Temps
